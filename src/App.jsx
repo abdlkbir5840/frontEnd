@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Main from "./views/Main";
 import "./App.css";
+import Fournisseur from "./views/Fournisseur/Fournisseur";
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
         <Route path="/register" element={<SignUp />} />
         <Route path="/main" element={<Main/>} />
         <Route path="/dashboard/" element={<ProtectedRoutes />}>
-          <Route path="main" element={<Main/>} />
+          <Route path="fournisseur" element={<Fournisseur/>} />
         </Route>
       </Routes>
     </BrowserRouter>

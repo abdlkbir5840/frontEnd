@@ -33,7 +33,7 @@ export default function Main() {
         </div>
 
         <h2>Section title</h2>
-      {/* Table data here */}
+        {/* Table data here */}
       </main>
     </>
   );
