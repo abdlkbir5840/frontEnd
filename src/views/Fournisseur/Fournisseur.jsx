@@ -4,6 +4,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AddFournisseur from "./AddFournisseur";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFournisseurs, removeFournisseur, selectFournisseurs } from "../../store/FournisseurSlice";
+import EditFournisseur from "./EditFournisseur";
 export default function Clients() {
   const dispatch = useDispatch()
   const fournisseurs = useSelector(selectFournisseurs);
@@ -79,7 +80,10 @@ export default function Clients() {
                       onClick={() => handleEditFournisseur(fournisseur)}
                       className={"btn btn-outline-secondary"}
                     >
-                      <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={faEdit}>
+                        <EditFournisseur />
+                      </FontAwesomeIcon>
+                      
                     </button>
                   </td>
                 </tr>

@@ -1,0 +1,117 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addFournisseur } from "../../store/FournisseurSlice";
+export default function EditFournisseur() {
+  const [code_fournisseur, setCodeFournisseur] = useState("");
+  const [nom, setNom] = useState("");
+  const [mail, setMail] = useState("");
+  const [tel, setTel] = useState("");
+  const [fax, setFax] = useState("");
+  const [adresse, setAdresse] = useState("");
+  const dispatch = useDispatch();
+  const handleEdit = () => {
+    const fournisseur = {code_fournisseur, nom, adresse, tel, mail,fax};
+    dispatch(addFournisseur(fournisseur));
+  };
+  return (
+    <>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Ajouter Fournisseur
+      </button>
+
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Modal title
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div className="mb-3">
+                  <label className="form-label">Code Fournisseur :</label>
+                  <input
+                    onChange={(e) => setCodeFournisseur(e.target.value)}
+                    value={code_fournisseur}
+                    className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Nom :</label>
+                  <input
+                    onChange={(e) => setNom(e.target.value)}
+                    value={nom}
+                    className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Telephone :</label>
+                  <input
+                    onChange={(e) => setTel(e.target.value)}
+                    value={tel}
+                    className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Email :</label>
+                  <input
+                    onChange={(e) => setMail(e.target.value)}
+                    value={mail}
+                    className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Fax :</label>
+                  <input
+                    onChange={(e) => setFax(e.target.value)}
+                    value={fax}
+                    className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Adresse :</label>
+                  <input
+                    onChange={(e) => setAdresse(e.target.value)}
+                    value={adresse}
+                    className="form-control"
+                  ></input>
+                </div>
+              </form>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button onClick={handleEdit} type="button" class="btn btn-primary">
+                Modifier Fournisseur
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
