@@ -7,7 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./views/Main";
 import "./App.css";
 import Fournisseur from "./views/Fournisseur/Fournisseur";
+import Clients from "./views/Client/Clients.jsx";
 import RequireAuth from "./authentication/RequireAuth";
+import EditClient from "./views/Client/EditClient.jsx";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           {/* <Route element={<RequireAuth />}> */}
             <Route path="/dashboard/" element={<ProtectedRoutes />}>
               <Route path="fournisseur" element={<Fournisseur />} />
+              <Route path="client" element={<Clients/>} />
+              <Route path="editClient" element={<EditClient/>} />
             </Route>
           {/* </Route> */}
         </Routes>
