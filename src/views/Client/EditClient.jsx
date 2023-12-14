@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {getClient} from "../../services/clientService.jsx";
-import {updateClients} from "../../store/ClientSlice.jsx";
+import {updateClient} from "../../store/ClientSlice.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 export default function EditClient({infoClient}){
@@ -22,7 +22,7 @@ export default function EditClient({infoClient}){
 
         let client = {id,firstName,lastName,email,phone,adresse};
 
-        dispatch(updateClients(client))
+        dispatch(updateClient(client))
 
     }
 

@@ -5,22 +5,63 @@ import {faEdit, faPlus, faSearch, faTrash} from "@fortawesome/free-solid-svg-ico
 import {useNavigate} from "react-router-dom";
 import NewClient from "./NewClient.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchFournisseurs, removeFournisseur, selectFournisseurs} from "../../store/FournisseurSlice.jsx";
-import {fetchClients, removeClient, selectClients} from "../../store/ClientSlice.jsx";
+
+import {fetchClients, removeClient, searchClient, selectClients, totalPages} from "../../store/ClientSlice.jsx";
 import EditClient from "./EditClient";
 export default function Clients() {
     const dispatch = useDispatch()
     const clients = useSelector(selectClients);
+    const totalPage = useSelector(totalPages);
+    const [currentPage, setCurrentPage] = useState(1);
     const [firstName ,setFirstName]= useState("")
     const [lastName ,setLastName]= useState("")
     const navigate = useNavigate();
     useEffect(() => {
-        dispatch(fetchClients())
+        dispatch(fetchClients(1));
     }, [dispatch]);
     const handleDeleteClient =  (client) => {
         console.log(client);
         dispatch(removeClient(client));
 
+    };
+    const handelPaginate = (page) => {
+
+        if(currentPage>=totalPage){
+            setCurrentPage(1);
+            dispatch(fetchClients(1));
+        }else{
+            dispatch(fetchClients(page));
+            setCurrentPage(page);
+        }
+
+    };
+    const renderPaginationLinks = () => {
+        if (totalPage < 5)
+            return Array.from({ length: totalPage }, (_, index) => index + 1);
+        const maxLinksToShow = 5;
+        const halfMaxLinksToShow = Math.floor(maxLinksToShow / 2);
+
+        let startIdx = currentPage - halfMaxLinksToShow;
+        let endIdx = currentPage + halfMaxLinksToShow;
+
+        if (startIdx < 1) {
+            startIdx = 1;
+            endIdx = maxLinksToShow;
+        }
+
+        if (endIdx > totalPage) {
+            endIdx = totalPage;
+            startIdx = totalPage - maxLinksToShow + 1;
+        }
+
+        return Array.from(
+            { length: endIdx - startIdx + 1 },
+            (_, index) => startIdx + index
+        );
+    };
+    const handleSearch = () => {
+        console.log(firstName+" "+lastName)
+        dispatch(searchClient(firstName,lastName));
     };
 
     return (
@@ -29,38 +70,32 @@ export default function Clients() {
                 <h1 className="h2">Gestion des clients</h1>
                 <div className="btn-toolbar mb-2 mb-md-0">
 
-                    {/*<button*/}
-                    {/*    type="button"*/}
-                    {/*    className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"*/}
-                    {/*>*/}
-                    {/*    <FontAwesomeIcon icon={faPlus}>*/}
-                    {/*    </FontAwesomeIcon> Ajouter*/}
-                    {/*</button>*/}
                     <NewClient/>
                 </div>
             </div>
 
             <div className="card-body">
-                <form>
+                <form onSubmit={handleSearch}>
                     <div className="row g-2">
                         <div className="col-auto">
                             <input
-                                // value={query}
-                                // onChange={(e)=>setSQuery(e.target.value)}
+                                value={lastName}
+                                onChange={(e)=>setLastName(e.target.value)}
                                 className="form-control"
                                 placeholder="Nom"
                             />
                         </div>
                         <div className="col-auto">
                             <input
-                                // value={query}
-                                // onChange={(e)=>setSQuery(e.target.value)}
+                                value={firstName}
+                                onChange={(e)=>setFirstName(e.target.value)}
                                 className="form-control"
                                 placeholder="Prénom"
                             />
                         </div>
                         <div className="col-auto">
-                            <button className="btn btn-success">
+                            <button
+                                className="btn btn-primary">
                                 <FontAwesomeIcon icon={faSearch} />
                             </button>
                         </div>
@@ -85,13 +120,14 @@ export default function Clients() {
                     </thead>
                     <tbody>
                     {Array.isArray(clients) && clients.map((client)=>(
-                        <tr key={client.id}>
-                            <td>{client.id}</td>
-                            <td>{client.lastName}</td>
-                            <td>{client.firstName}</td>
-                            <td>{client.email}</td>
-                            <td>{client.phone}</td>
-                            <td>{client.adresse}</td>
+                        client && (
+                        <tr  key={client && client.id}>
+                            {client && <td>{client.id}</td>}
+                            {client &&<td>{client.lastName}</td>}
+                            {client &&<td>{client.firstName}</td>}
+                            {client &&<td>{client.email}</td>}
+                            {client &&<td>{client.phone}</td>}
+                            {client &&<td>{client.adresse}</td>}
                             {/*<td>*/}
                             {/*    <button onClick={()=> handleCheckProduct(product)} className={"btn btn-outline-success"}>*/}
                             {/*        <FontAwesomeIcon icon={product.checked ? faCheckCircle:faCircle}>*/}
@@ -108,34 +144,64 @@ export default function Clients() {
                             </td>
                             <td>
 
-                                <EditClient infoClient={{id:client.id,lastName:client.lastName,firstName:client.firstName,email:client.email,phone:client.phone,adresse: client.adresse}}/>
+                                <EditClient
+                                    infoClient={{
+                                        id: client.id,
+                                        lastName: client.lastName,
+                                        firstName: client.firstName,
+                                        email: client.email,
+                                        phone: client.phone,
+                                        adresse: client.adresse,
+                                    }}
+                                />
                             </td>
 
-                            {/*<td>*/}
-                            {/*    <button*/}
-                            {/*        onClick={()=>navigate(`/editProduct/${product.id}`)}*/}
-                            {/*        className={"btn btn-outline-secondary"}>*/}
-                            {/*        <FontAwesomeIcon icon={faEdit}>*/}
-                            {/*        </FontAwesomeIcon>*/}
-                            {/*    </button>*/}
-                            {/*</td>*/}
-                        </tr>
+                        </tr>)
                     ))}
                     </tbody>
 
                 </table>
-                {/*<ul className={"nav nav-pills"}>*/}
-                {/*    {*/}
-                {/*        new Array(clients.totalPages).fill(0).map((v,index)=>(*/}
-                {/*            <li>*/}
-                {/*                <button onClick={()=>handleGotoPage(index+1)}*/}
-                {/*                        className={(index+1)==state.currentPage?"btn btn-info ms-1":"btn btn-outline-info ms-1"}>*/}
-                {/*                    {index+1}*/}
-                {/*                </button>*/}
-                {/*            </li>*/}
-                {/*        ))*/}
-                {/*    }*/}
-                {/*</ul>*/}
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        <li
+                            className="page-item"
+                            onClick={() => handelPaginate(currentPage - 1)}
+                        >
+                            <a className="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {renderPaginationLinks().map((page) => (
+                            <li
+                                onClick={() => handelPaginate(page)}
+                                key={page}
+                                className={
+                                    page === currentPage ? "page-item active" : "page-item"
+                                }
+                            >
+                                <a href="#" className="page-link">
+                                    {page}
+                                </a>
+                            </li>
+                        ))}
+                        <li
+                            className={
+                                currentPage === totalPage ? "page-item disabled" : "page-item"
+                            }
+                            onClick={() => handelPaginate(currentPage + 1)}
+                        >
+                            <a
+                                class={
+                                    currentPage === totalPage ? "page-link disabled" : "page-link"
+                                }
+                                href="#"
+                                aria-label="Next"
+                            >
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </main>
 
