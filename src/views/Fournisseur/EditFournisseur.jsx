@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addFournisseur } from "../../store/FournisseurSlice";
-export default function EditFournisseur() {
-  const [code_fournisseur, setCodeFournisseur] = useState("");
-  const [nom, setNom] = useState("");
-  const [mail, setMail] = useState("");
-  const [tel, setTel] = useState("");
-  const [fax, setFax] = useState("");
-  const [adresse, setAdresse] = useState("");
+import { updateFournisseur } from "../../store/FournisseurSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+export default function EditFournisseur({fournisseurInfo}) {
+  const [code_fournisseur, setCodeFournisseur] = useState(fournisseurInfo.code_fournisseur);
+  const [nom, setNom] = useState(fournisseurInfo.nom);
+  const [mail, setMail] = useState(fournisseurInfo.mail);
+  const [tel, setTel] = useState(fournisseurInfo.tel);
+  const [fax, setFax] = useState(fournisseurInfo.fax);
+  const [adresse, setAdresse] = useState(fournisseurInfo.adresse);
   const dispatch = useDispatch();
-  const handleEdit = () => {
-    const fournisseur = {code_fournisseur, nom, adresse, tel, mail,fax};
-    dispatch(addFournisseur(fournisseur));
+  const handleAdd = () => {
+    const id = fournisseurInfo.id
+    const fournisseur = {id,code_fournisseur, nom, adresse, tel, mail,fax};
+    // console.log(fournisseur)
+    dispatch(updateFournisseur(fournisseur));
   };
   return (
     <>
@@ -19,14 +23,14 @@ export default function EditFournisseur() {
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target={"#editModal"+fournisseurInfo.id}
       >
-        Ajouter Fournisseur
+        <FontAwesomeIcon icon={faEdit} size="sm" />
       </button>
 
       <div
         class="modal fade"
-        id="exampleModal"
+        id={"editModal"+fournisseurInfo.id}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -105,7 +109,7 @@ export default function EditFournisseur() {
               >
                 Close
               </button>
-              <button onClick={handleEdit} type="button" class="btn btn-primary">
+              <button onClick={handleAdd} type="button" class="btn btn-primary">
                 Modifier Fournisseur
               </button>
             </div>

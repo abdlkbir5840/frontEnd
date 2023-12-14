@@ -3,27 +3,39 @@ import {
   deleteFournisseur,
   getFournisseurs,
   saveFournisseur,
+  editFournisseur,
+  search
 } from "../services/fournisseurService";
 
 export const fetchFournisseurs = createAsyncThunk(
   "fournisseur/fetchFournisseurs",
-  async () => {
+  async (page) => {
     try {
-      const response = await getFournisseurs();
-      return response.data.fournisseur.data;
+      const response = await getFournisseurs(page);
+      return {data:response.data.fournisseur.data,totalPages:response.data.fournisseur.totalPages};
     } catch (error) {
       console.log(error);
     }
   }
 );
-
+export const searchFournisseur = createAsyncThunk(
+  "fournisseur/searchFournisseur",
+  async (words) => {
+    try {
+      const response = await search(words);
+      return {data:response.data.fournisseur.data,totalPages:response.data.fournisseur.totalPages};
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 export const addFournisseur = createAsyncThunk(
   "fournisseur/addFournisseurs",
   async (fournisseur) => {
     try {
       const response = await saveFournisseur(fournisseur);
-      console.log(response);
-      return response.data.fournisseur;
+      console.log(response.data)
+      return response.data.data;
     } catch (error) {
       console.log(error);
     }
@@ -34,9 +46,8 @@ export const updateFournisseur = createAsyncThunk(
   "fournisseur/updateFournisseur",
   async (fournisseur) => {
     try {
-      const response = await updateFournisseur(fournisseur);
-      console.log(response);
-      return response.data.fournisseur;
+      const response = await editFournisseur(fournisseur);
+      return response.data.data;
     } catch (error) {
       console.log(error);
     }
@@ -58,19 +69,29 @@ const fournisseurSlice = createSlice({
   name: "fournisseur",
   initialState: {
     fournisseurs: [],
+    fournisseur: {},
+    totalPages:null,
     status: "",
     error: null,
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFournisseurs.fulfilled, (state, action) => {
-        state.fournisseurs = action.payload;
+        state.totalPages = action.payload.totalPages
+        state.fournisseurs = action.payload.data;
+      })
+      .addCase(searchFournisseur.fulfilled, (state, action) => {
+        state.totalPages = action.payload.totalPages
+        state.fournisseurs = action.payload.data;
+        console.log(action.payload.totalPages)
+        console.log(action.payload.data)
       })
       .addCase(addFournisseur.fulfilled, (state, action) => {
           console.log(action.payload)
         state.fournisseurs.push(action.payload);
       })
       .addCase(updateFournisseur.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.fournisseurs = state.fournisseurs.map((item) =>
           item.id === action.payload.id ? { ...item, ...action.payload } : item
         );
@@ -84,4 +105,6 @@ const fournisseurSlice = createSlice({
   },
 });
 export const selectFournisseurs = (state) => state.fournisseur.fournisseurs;
+export const selectFournisseur = (state) => state.fournisseur.fournisseur;
+export const totalPages = (state) => state.fournisseur.totalPages;
 export const fournisseur = fournisseurSlice.reducer;

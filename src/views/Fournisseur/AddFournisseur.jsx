@@ -13,6 +13,7 @@ export default function AddFournisseur() {
     const fournisseur = {code_fournisseur, nom, adresse, tel, mail,fax};
     dispatch(addFournisseur(fournisseur));
   };
+  
   return (
     <>
       <button
