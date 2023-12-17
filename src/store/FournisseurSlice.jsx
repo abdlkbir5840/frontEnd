@@ -20,9 +20,11 @@ export const fetchFournisseurs = createAsyncThunk(
 );
 export const searchFournisseur = createAsyncThunk(
   "fournisseur/searchFournisseur",
-  async (words) => {
+  async ({ words, page }) => {
     try {
-      const response = await search(words);
+      console.log(page)
+      console.log(words)
+      const response = await search(words, page);
       return {data:response.data.fournisseur.data,totalPages:response.data.fournisseur.totalPages};
     } catch (error) {
       console.log(error);
@@ -34,7 +36,6 @@ export const addFournisseur = createAsyncThunk(
   async (fournisseur) => {
     try {
       const response = await saveFournisseur(fournisseur);
-      console.log(response.data)
       return response.data.data;
     } catch (error) {
       console.log(error);
@@ -83,8 +84,6 @@ const fournisseurSlice = createSlice({
       .addCase(searchFournisseur.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages
         state.fournisseurs = action.payload.data;
-        console.log(action.payload.totalPages)
-        console.log(action.payload.data)
       })
       .addCase(addFournisseur.fulfilled, (state, action) => {
         state.fournisseurs.push(action.payload);

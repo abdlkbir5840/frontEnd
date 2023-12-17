@@ -4,8 +4,8 @@ import {instance} from "../apis/AxiosInstance.js";
 export const getFournisseurs = async (page)=> {
     return await instance.get(`fournisseurs?page=${page}`);
 }
-export const search = async (words)=> {
-    return await instance.get(`fournisseurs/nom/${words}`);
+export const search = async (search, page)=> {
+    return await instance.get(`fournisseurs/nom/${search}?page=${page}`);
 }
 
 export const saveFournisseur = async (fournisseur)=> {

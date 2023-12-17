@@ -8,6 +8,8 @@ import Main from "./views/Main";
 import "./App.css";
 import Fournisseur from "./views/Fournisseur/Fournisseur";
 import RequireAuth from "./authentication/RequireAuth";
+import Categorie from "./views/Categorie/Categorie";
+import Produit from "./views/Produit/Produit";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           {/* <Route element={<RequireAuth />}> */}
             <Route path="/dashboard/" element={<ProtectedRoutes />}>
               <Route path="fournisseur" element={<Fournisseur />} />
+              <Route path="categorie" element={<Categorie />} />
+              <Route path="produit" element={<Produit />} />
             </Route>
           {/* </Route> */}
         </Routes>
