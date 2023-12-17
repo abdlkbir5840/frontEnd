@@ -86,6 +86,7 @@ const fournisseurSlice = createSlice({
         state.fournisseurs = action.payload.data;
       })
       .addCase(addFournisseur.fulfilled, (state, action) => {
+          console.log(action.payload)
         state.fournisseurs.push(action.payload);
       })
       .addCase(updateFournisseur.fulfilled, (state, action) => {

@@ -7,9 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./views/Main";
 import "./App.css";
 import Fournisseur from "./views/Fournisseur/Fournisseur";
+import Clients from "./views/Client/Clients.jsx";
 import RequireAuth from "./authentication/RequireAuth";
 import Categorie from "./views/Categorie/Categorie";
 import Produit from "./views/Produit/Produit";
+import EditClient from "./views/Client/EditClient.jsx";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
               <Route path="fournisseur" element={<Fournisseur />} />
               <Route path="categorie" element={<Categorie />} />
               <Route path="produit" element={<Produit />} />
+              <Route path="client" element={<Clients/>} />
+              <Route path="editClient" element={<EditClient/>} />
             </Route>
           {/* </Route> */}
         </Routes>
