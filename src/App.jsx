@@ -10,6 +10,7 @@ import Fournisseur from "./views/Fournisseur/Fournisseur";
 import Clients from "./views/Client/Clients.jsx";
 import RequireAuth from "./authentication/RequireAuth";
 import EditClient from "./views/Client/EditClient.jsx";
+import Packs from "./views/Pack/Packs";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/dashboard/" element={<ProtectedRoutes />}>
               <Route path="fournisseur" element={<Fournisseur />} />
               <Route path="client" element={<Clients/>} />
-              <Route path="editClient" element={<EditClient/>} />
+              <Route path="pack" element={<Packs/>} />
             </Route>
           {/* </Route> */}
         </Routes>
