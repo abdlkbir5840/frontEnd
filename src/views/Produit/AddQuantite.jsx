@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduit } from "../../store/ProduitSlice";
 import {
-  fetchFournisseurs,
+  fetchAllFournisseurs,
   selectFournisseurs,
 } from "../../store/FournisseurSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-export default function AddQuantite({produitInfo}) {
+import { addproductQuantite } from "../../store/ProduitSlice";
+
+export default function AddQuantite({ produitInfo }) {
   const fournisseurs = useSelector(selectFournisseurs);
   const [code_produit, setCodeProduit] = useState(produitInfo.code_produit);
   const [nom, setNom] = useState(produitInfo.nom);
-  const [id, setId] = useState(produitInfo.id);
+  const [produitId, setProduitId] = useState(produitInfo.id);
   const [qte_entree, setQteEntree] = useState("");
   const [fournisseur_id, setFournisseurId] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchFournisseurs());
-    console.log(fournisseurs);
+    dispatch(fetchAllFournisseurs());
   }, [dispatch]);
   const handleAdd = () => {
-    const produit = {
-      id,
-      code_produit,
-      nom,
-      qte_entree,
-      fournisseur_id,
-    };
-    console.log(produit);
-    // dispatch(addQuantite(produit));
+    // const produit = {
+    //   id,
+    //   code_produit,
+    //   nom,
+    //   qte_entree,
+    //   fournisseur_id,
+    // };
+    // console.log(produit);
+    dispatch(addproductQuantite({ qte_entree, produitId, fournisseur_id }));
   };
 
   return (
@@ -37,7 +37,7 @@ export default function AddQuantite({produitInfo}) {
         type="button"
         class="bg-light outline-non border-0"
         data-bs-toggle="modal"
-        data-bs-target={"#exampleModal"+produitInfo.id}
+        data-bs-target={"#exampleModal" + produitInfo.id}
       >
         <span class="wishlist bg-success">
           <FontAwesomeIcon icon={faPlus} />
@@ -46,7 +46,7 @@ export default function AddQuantite({produitInfo}) {
 
       <div
         class="modal fade"
-        id={"exampleModal"+produitInfo.id}
+        id={"exampleModal" + produitInfo.id}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -76,11 +76,7 @@ export default function AddQuantite({produitInfo}) {
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Nom :</label>
-                  <input
-                    value={nom}
-                    className="form-control"
-                    disabled
-                  ></input>
+                  <input value={nom} className="form-control" disabled></input>
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Quantite Entree :</label>

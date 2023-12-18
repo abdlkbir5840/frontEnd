@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   deleteFournisseur,
   getFournisseurs,
+  getAllFournisseurs,
   saveFournisseur,
   editFournisseur,
   search
@@ -13,6 +14,18 @@ export const fetchFournisseurs = createAsyncThunk(
     try {
       const response = await getFournisseurs(page);
       return {data:response.data.fournisseur.data,totalPages:response.data.fournisseur.totalPages};
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const fetchAllFournisseurs = createAsyncThunk(
+  "fournisseur/fetchAllFournisseurs",
+  async () => {
+    try {
+      const response = await getAllFournisseurs();
+      return response.data.fournisseur;
     } catch (error) {
       console.log(error);
     }
@@ -80,6 +93,9 @@ const fournisseurSlice = createSlice({
       .addCase(fetchFournisseurs.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages
         state.fournisseurs = action.payload.data;
+      })
+      .addCase(fetchAllFournisseurs.fulfilled, (state, action)=>{
+        state.fournisseurs = action.payload
       })
       .addCase(searchFournisseur.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages

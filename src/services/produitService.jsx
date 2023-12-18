@@ -9,9 +9,14 @@ export const search = async (search, page)=> {
 }
 
 export const saveProduits = async (produit)=> {
+    console.log("service", produit)
     return await instance.post('produits',produit);
 }
 
+export const addQuantite = async (qte_entree, produitId, fournisseurId)=> {
+    const data = { qte_entree: qte_entree };
+    return await instance.post(`produits/quantite/${produitId}/${fournisseurId}`,data);
+}
 export const editProduits = async (produit)=> {
     return await instance.put(`produits/${produit.id}`,produit);
 }

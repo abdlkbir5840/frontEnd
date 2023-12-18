@@ -1,5 +1,5 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 export default function SidBar() {
   const navigate = useNavigate();
   return (
@@ -38,28 +38,28 @@ export default function SidBar() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link d-flex align-items-center gap-2" href="#">
+                <a className="nav-link d-flex align-items-center gap-2" href="fournisseur">
                   <svg className="bi">
                     <use xlinkHref="#file-earmark" />
                   </svg>
-                  Orders
+                  Fournisseurs
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link d-flex align-items-center gap-2" href="#">
+                <Link className="nav-link d-flex align-items-center gap-2" to="produit">
                   <svg className="bi">
                     <use xlinkHref="#cart" />
                   </svg>
-                  Products
-                </a>
+                  Produits
+                </Link>
               </li>
-              <li className="nav-item" onClick={()=>navigate('/dashboard/client')}>
-                <a className="nav-link d-flex align-items-center gap-2" href="#">
+              <li className="nav-item">
+                <Link className="nav-link d-flex align-items-center gap-2" to="client">
                   <svg className="bi">
                     <use xlinkHref="#people" />
                   </svg>
                   Clients
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link d-flex align-items-center gap-2" href="#">
