@@ -94,8 +94,8 @@ export default function Packs() {
             (_, index) => startIdx + index
         );
     };
-    const handleSearch = () => {
-        console.log(query)
+    const handleSearch = (e) => {
+        e.preventDefault()
         dispatch(searchPack(query));
         console.log(packs)
     };

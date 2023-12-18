@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {fetchClients, removeClient, searchClient, selectClients, totalPages} from "../../store/ClientSlice.jsx";
 import EditClient from "./EditClient";
+import {fetchFournisseurs} from "../../store/FournisseurSlice.jsx";
 export default function Clients() {
     const dispatch = useDispatch()
     const clients = useSelector(selectClients);
@@ -59,9 +60,13 @@ export default function Clients() {
             (_, index) => startIdx + index
         );
     };
-    const handleSearch = () => {
-        console.log(firstName+" "+lastName)
-        dispatch(searchClient(firstName,lastName));
+    const handleSearch = (e) => {
+        e.preventDefault()
+        if(firstName==="" && lastName===""){
+            dispatch(fetchClients(1))
+        }else{
+        // console.log(firstName+" "+lastName)
+        dispatch(searchClient({firstName,lastName}));}
     };
 
     return (

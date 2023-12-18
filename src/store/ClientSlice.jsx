@@ -13,7 +13,6 @@ export const fetchClients = createAsyncThunk(
     async (page) => {
         try {
             const response = await getClients(page);
-            console.log(response)
             if (response.data && response.data.clients && response.data.clients.data && response.data.clients.totalPages) {
                 return { data: response.data.clients.data, totalPages: response.data.clients.totalPages };
             }
@@ -24,7 +23,7 @@ export const fetchClients = createAsyncThunk(
 );
 export const searchClient = createAsyncThunk(
     "client/searchClient",
-    async (firstName,lastName) => {
+    async ({firstName,lastName}) => {
         try {
             const response = await getClientByFirstNameAndLastName(firstName,lastName);
             return {data:response.data.client.data,totalPages:response.data.client.totalPages};
@@ -39,7 +38,7 @@ export const addClient = createAsyncThunk(
         try {
             const response = await saveClient(client);
             console.log(response.data)
-            return response.data.data;
+            return response.data.client;
         } catch (error) {
             console.log(error);
         }

@@ -62,11 +62,11 @@ export default function SidBar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link d-flex align-items-center gap-2" href="#">
+                <a className="nav-link d-flex align-items-center gap-2" href="pack">
                   <svg className="bi">
                     <use xlinkHref="#graph-up" />
                   </svg>
-                  Reports
+                  Packs
                 </a>
               </li>
               <li className="nav-item">
