@@ -106,7 +106,9 @@ export default function AddFournisseur() {
               >
                 Close
               </button>
-              <button onClick={handleAdd} type="button" class="btn btn-primary">
+              <button 
+              data-bs-dismiss="modal"
+              onClick={handleAdd} type="button" class="btn btn-primary">
                 Ajouter Fournisseur
               </button>
             </div>

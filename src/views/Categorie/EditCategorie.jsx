@@ -72,7 +72,9 @@ export default function EditCategorie({categorieInfo}) {
               >
                 Close
               </button>
-              <button onClick={handleUpdate} type="button" class="btn btn-primary">
+              <button 
+              data-bs-dismiss="modal"
+              onClick={handleUpdate} type="button" class="btn btn-primary">
                 Modifier Categorie
               </button>
             </div>

@@ -109,7 +109,9 @@ export default function EditFournisseur({fournisseurInfo}) {
               >
                 Close
               </button>
-              <button onClick={handleAdd} type="button" class="btn btn-primary">
+              <button 
+              data-bs-dismiss="modal"
+              onClick={handleAdd} type="button" class="btn btn-primary">
                 Modifier Fournisseur
               </button>
             </div>

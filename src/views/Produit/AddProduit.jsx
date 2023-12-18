@@ -175,7 +175,9 @@ export default function AddProduit() {
               >
                 Close
               </button>
-              <button onClick={handleAdd} type="button" class="btn btn-primary">
+              <button 
+              data-bs-dismiss="modal"
+              onClick={handleAdd} type="button" class="btn btn-primary">
                 Ajouter Produit
               </button>
             </div>
