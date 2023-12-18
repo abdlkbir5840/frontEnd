@@ -154,7 +154,7 @@ export default function Packs() {
                         </div>
                         <div className="card-body">
                         <div className="d-flex align-items-center justify-content-between">
-                            <h5 className="card-title" style={{ marginRight: '100px' }}>{pack.codePack} </h5>
+                            <h5 className="card-title" style={{ marginRight: '90px' }}>{pack.codePack} </h5>
                             <span style={{ marginRight: '10px' }}>{pack.prix} <FontAwesomeIcon icon={faDollar}  style={{color: 'darkgoldenrod'}} /></span>
                             {pack.disponible !== 0 ? (
                                 <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green',marginRight: '0px' }} />
