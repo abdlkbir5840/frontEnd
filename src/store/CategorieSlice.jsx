@@ -5,7 +5,8 @@ import {
     getCategories,
     saveCategories,
     editCategories,
-    search
+    search,
+    getAllCategories
   } from "../services/categorieService";
 
 export const fetchCategories = createAsyncThunk(
@@ -19,6 +20,19 @@ export const fetchCategories = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllCategories = createAsyncThunk(
+  "categorie/fetchAllCategories",
+  async () => {
+    try {
+      const response = await getAllCategories();
+      return response.data.categories;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const searchCategories = createAsyncThunk(
   "categorie/searchCategories",
   async ({ words, page }) => {
@@ -79,6 +93,9 @@ const categorieSlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages
         state.categories = action.payload.data;
+      })
+      .addCase(fetchAllCategories.fulfilled, (state, action)=>{
+        state.categories = action.payload
       })
       .addCase(searchCategories.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages

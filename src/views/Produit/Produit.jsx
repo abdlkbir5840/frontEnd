@@ -29,8 +29,7 @@ export default function Produit() {
   const [search, setSearch] = useState("");
   useEffect(() => {
     dispatch(fetchProduits(1));
-    console.log(produits);
-    console.log(totalPage);
+    console.log(produits)
   }, [dispatch]);
 
   const handelPaginate = (page) => {
@@ -86,8 +85,8 @@ export default function Produit() {
         {/* Statr */}
         <div class="customContanier">
           {Array.isArray(produits) &&
-            produits.map((produit) => (
-              <div class="card">
+            produits.map((produit, index) => (
+              <div class="card" key={index}>
                 <span
                   className="percent"
                   style={{

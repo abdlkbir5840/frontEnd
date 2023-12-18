@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduit } from "../../store/ProduitSlice";
 import {
-  fetchFournisseurs,
+  fetchAllFournisseurs,
   selectFournisseurs,
 } from "../../store/FournisseurSlice";
-import { fetchCategories, selectCategories } from "../../store/CategorieSlice";
+import {
+  fetchAllCategories,
+  selectCategories,
+} from "../../store/CategorieSlice";
 export default function AddProduit() {
   const fournisseurs = useSelector(selectFournisseurs);
   const categories = useSelector(selectCategories);
   const [code_produit, setCodeProduit] = useState("");
   const [nom, setNom] = useState("");
-  const [image, setImage] = useState("");
+  const [imagePath, setImagePath] = useState("");
   const [qte_entree, setQteEntree] = useState("");
   const [prix_unitaire, setPrixUnitaire] = useState("");
   const [description, setDescription] = useState("");
@@ -19,12 +22,14 @@ export default function AddProduit() {
   const [fournisseur_id, setFournisseurId] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchFournisseurs());
-    dispatch(fetchCategories());
-    console.log(categories);
-    console.log(fournisseurs);
+    dispatch(fetchAllFournisseurs());
+    dispatch(fetchAllCategories());
   }, [dispatch]);
   const handleAdd = () => {
+    const basePath = "D:\\react\\images\\";
+    // Utiliser replace pour enlever la partie de base du chemin
+    const image = imagePath.replace(basePath, "");
+
     const produit = {
       code_produit,
       nom,
@@ -36,7 +41,7 @@ export default function AddProduit() {
       fournisseur_id,
     };
     console.log(produit);
-    // dispatch(addProduit(produit));
+    dispatch(addProduit(produit));
   };
 
   return (
@@ -47,7 +52,7 @@ export default function AddProduit() {
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        Ajouter Fournisseur
+        Ajouter Produit
       </button>
 
       <div
@@ -134,7 +139,22 @@ export default function AddProduit() {
                     ))}
                   </select>
                 </div>
-
+                <div className="mb-3">
+                  <label className="form-label">Image :</label>
+                  {/* <input
+                    type="text-aria"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
+                    className="form-control"
+                  ></input> */}
+                  <input
+                    type="file"
+                    onChange={(e) => setImagePath(e.target.value)}
+                    value={imagePath}
+                    class="form-control"
+                    id="customFile"
+                  />
+                </div>
                 <div className="mb-3">
                   <label className="form-label">Description :</label>
                   <input

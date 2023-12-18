@@ -5,6 +5,7 @@ import {
     getProduits,
     saveProduits,
     editProduits,
+    addQuantite,
     search
   } from "../services/produitService";
 
@@ -35,6 +36,19 @@ export const addProduit = createAsyncThunk(
   async (produit) => {
     try {
       const response = await saveProduits(produit);
+      console.log(response.data.produit)
+      return response.data.produit;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const addproductQuantite = createAsyncThunk(
+  "produits/addproductQuantite",
+  async ({qte_entree, produitId, fournisseur_id}) => {
+    try {
+      const response = await addQuantite(qte_entree, produitId, fournisseur_id);
       return response.data.produit;
     } catch (error) {
       console.log(error);
@@ -86,6 +100,13 @@ const ProduitSlice = createSlice({
       })
       .addCase(addProduit.fulfilled, (state, action) => {
         state.produits.push(action.payload);
+      })
+      .addCase(addproductQuantite.fulfilled, (state, action)=>{
+        console.log(action.payload.id)
+        state.produits = state.produits.map((item) =>
+        item.id === action.payload.id ? { ...item, ...action.payload } : item
+      );
+      // console.log(state.produits)
       })
       .addCase(updateProduit.fulfilled, (state, action) => {
         state.produits = state.produits.map((item) =>
