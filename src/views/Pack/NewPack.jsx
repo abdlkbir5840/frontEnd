@@ -32,7 +32,7 @@ export default function NewPack(){
 
             >
                 <FontAwesomeIcon icon={faPlus}>
-                </FontAwesomeIcon> Ajouter Client
+                </FontAwesomeIcon> Créer un pack
             </button>
 
             <div

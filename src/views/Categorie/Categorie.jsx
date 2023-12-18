@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import AddFournisseur from "./AddFournisseur";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchFournisseurs,
-  removeFournisseur,
-  searchFournisseur,
-  selectFournisseurs,
+  fetchCategories,
+  removeCtegorie,
+  searchCategories,
+  selectCategories,
   totalPages,
-} from "../../store/FournisseurSlice";
-import EditFournisseur from "./EditFournisseur";
-export default function Fournisseur() {
+} from "../../store/CategorieSlice";
+import EditCategorie from "./EditCategorie";
+import AddCategorie from "./AddCategorie";
+export default function Categorie() {
   const dispatch = useDispatch();
-  const fournisseurs = useSelector(selectFournisseurs);
+  const categories = useSelector(selectCategories);
   const totalPage = useSelector(totalPages);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   useEffect(() => {
-    dispatch(fetchFournisseurs(1));
+    dispatch(fetchCategories(1));
   }, [dispatch]);
 
-  const handleDeleteFournisseur = (fournisseur) => {
-    dispatch(removeFournisseur(fournisseur));
+  const handleDelete = (fournisseur) => {
+    dispatch(removeCtegorie(fournisseur));
   };
   const handelPaginate = (page) => {
     if(search!==""){
-      dispatch(searchFournisseur({ words: search, page: page }));
+      dispatch(searchCategories({ words: search, page: page }));
       
       setCurrentPage(page);
     }else{
       if(currentPage>=totalPage){ 
         setCurrentPage(1);
-      dispatch(fetchFournisseurs(1));
+      dispatch(fetchCategories(1));
       }else{
-      dispatch(fetchFournisseurs(page));
+      dispatch(fetchCategories(page));
       setCurrentPage(page);
     }
     }
@@ -42,10 +42,10 @@ export default function Fournisseur() {
   };
   const handleSearch = () => {
     if(search===""){
-      dispatch(fetchFournisseurs(1))
+      dispatch(fetchCategories(1))
     }else{
       setCurrentPage(1)
-      dispatch(searchFournisseur({ words: search, page: 1 }));
+      dispatch(searchCategories({ words: search, page: 1 }));
     }
   };
   const renderPaginationLinks = () => {
@@ -88,7 +88,7 @@ export default function Fournisseur() {
         </div>
       </div>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <AddFournisseur />
+        <AddCategorie />
         <form className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -112,35 +112,34 @@ export default function Fournisseur() {
           <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Code</th>
               <th scope="col">Nom</th>
-              <th scope="col">Téléphone</th>
-              <th scope="col">Email</th>
-              <th scope="col">Fax</th>
+              <th scope="col">Description</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(fournisseurs) &&
-              fournisseurs.map((fournisseur) => (
-                <tr key={fournisseur.id}>
-                  <td>{fournisseur.id}</td>
-                  <td>{fournisseur.code_fournisseur}</td>
-                  <td>{fournisseur.nom}</td>
-                  <td>{fournisseur.tel}</td>
-                  <td>{fournisseur.mail}</td>
-                  <td>{fournisseur.fax}</td>
+            {Array.isArray(categories) &&
+              categories.map((categorie) => (
+                <tr key={categorie.id}>
+                  <td>{categorie.id}</td>
+                  <td>{categorie.nom}</td>
+                  <td>{categorie.description}</td>
                   <td>
                     <button
-                      onClick={() => handleDeleteFournisseur(fournisseur)}
+                      onClick={() => handleDelete(categorie)}
                       className="btn btn-outline-danger"
                     >
                       <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                     </button>
                   </td>
                   <td>
-                    <EditFournisseur
+                    <EditCategorie categorieInfo = {{
+                      id: categorie.id,
+                      nom: categorie.nom,
+                      description: categorie.description
+                    }} />
+                    {/* <EditFournisseur
                       fournisseurInfo={{
                         id: fournisseur.id,
                         nom: fournisseur.nom,
@@ -150,7 +149,7 @@ export default function Fournisseur() {
                         mail: fournisseur.mail,
                         adresse: fournisseur.adresse,
                       }}
-                    />
+                    /> */}
                   </td>
                 </tr>
               ))}

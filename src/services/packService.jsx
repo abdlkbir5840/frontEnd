@@ -22,6 +22,9 @@ export const getPack = async (codePack)=> {
 export const savePack = (pack)=> {
     return instance.post(`packs`,pack);
 }
+export const ajouterProduitToPack = (pack_id,produit_id)=> {
+    return instance.post(`packProduits`,{pack_id,produit_id});
+}
 
 export const editPack = (pack)=> {
     console.log(pack)

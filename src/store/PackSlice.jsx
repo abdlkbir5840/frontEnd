@@ -1,5 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {deletePack, deleteProduitFromPack, editPack, getPack, getPacks, savePack} from "../services/packService.jsx";
+import {
+    ajouterProduitToPack,
+    deletePack,
+    deleteProduitFromPack,
+    editPack,
+    getPack,
+    getPacks,
+    savePack
+} from "../services/packService.jsx";
 import {updateClient} from "./ClientSlice.jsx";
 import {searchFournisseur} from "./FournisseurSlice.jsx";
 
@@ -39,6 +47,18 @@ export const addPack = createAsyncThunk(
             const response = await savePack(pack);
             console.log(response.data.produit)
             return response.data.produit;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const addProduitToPack = createAsyncThunk(
+    "pack/addProduitToPack",
+    async ({pack_id,produit_id}) => {
+        try {
+            const response = await ajouterProduitToPack(pack_id,produit_id);
+            console.log(response.data.pack)
+            return response.data.pack;
         } catch (error) {
             console.log(error);
         }
@@ -102,6 +122,12 @@ const packSlice = createSlice({
             .addCase(addPack.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.packs.push(action.payload);
+            })
+            .addCase(addProduitToPack.fulfilled, (state, action) => {
+                console.log(action.payload)
+                state.packs = state.packs.map((item) =>
+                    item.id === action.payload.id ? { ...item, ...action.payload } : item
+                );
             })
             .addCase(updatePack.fulfilled, (state, action) => {
                 console.log(action.payload)

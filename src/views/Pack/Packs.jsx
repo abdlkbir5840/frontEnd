@@ -13,6 +13,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    addProduitToPack,
     fetchPacks,
     removePack,
     removeProduitFromPack,
@@ -24,18 +25,22 @@ import EditClient from "../Client/EditClient.jsx";
 import {removeClient} from "../../store/ClientSlice.jsx";
 import NewPack from "./NewPack.jsx";
 import EditPack from "./EditPack.jsx";
+import {fetchProduits, selectProduits} from "../../store/ProduitSlice.jsx";
 
 export default function Packs() {
     const dispatch = useDispatch()
     const packs = useSelector(selectPacks);
+    const produits = useSelector(selectProduits);
     const totalPage = useSelector(totalPages);
     const [currentPage, setCurrentPage] = useState(1);
     const [query ,setQuery]= useState("")
+    const [produit_id ,setProduitId]= useState()
     // const [lastName ,setLastName]= useState("")
     const navigate = useNavigate();
     useEffect(() => {
         console.log(totalPage)
         dispatch(fetchPacks(1));
+        dispatch(fetchProduits(1));
 
     }, [dispatch]);
     const handleDeleteProductFromPack =  (packId,produitId) => {
@@ -47,6 +52,11 @@ export default function Packs() {
     const handleDeletePack =  (pack) => {
         console.log(pack);
         dispatch(removePack(pack));
+
+    };
+    const handleAjouterProduitToPack =  (pack_id) => {
+        let pack = {pack_id,produit_id}
+        dispatch(addProduitToPack(pack));
 
     };
     const handelPaginate = (page) => {
@@ -100,11 +110,10 @@ export default function Packs() {
                 </div>
             </div>
 
-                <form onSubmit={handleSearch} className='ms-5'>
+                <form onSubmit={handleSearch} className='ms-4'>
                     <div className="row g-2">
                         <div className="col-auto">
                             <input
-
                                 onChange={(e)=>setQuery(e.target.value)}
                                 value={query}
                                 className="form-control"
@@ -123,14 +132,29 @@ export default function Packs() {
 
 
             <br/>
-            <div className="row d-flex align-items-center justify-content-center ">
+            <div className="row d-flex align-items-center justify-content-center  ">
             {Array.isArray(packs) && packs.map((pack)=>(
                 pack && (
-                    <div className="card m-2" style={{ width: '22rem' }}  key={pack && pack.id}>
-                <div className="card-body">
-{}
+
+                    <div className="card m-2  h-50" style={{ width: '17rem' }}  key={pack && pack.id}>
+                         <span
+                             className="percent"
+                             style={{
+                                 background: "green",
+                             }}
+                         >
+                                      {pack.nbrProduits}
+                         </span>
+                        <div className="card-image">
+                            <img
+                                src="https://www.zenpack.us/wp-content/uploads/2022/03/consumer_electronic_07.jpg"
+                                width="270"
+                                style={{borderTopRightRadius: '10px'}}
+                            />
+                        </div>
+                        <div className="card-body">
                         <div className="d-flex align-items-center justify-content-between">
-                            <h5 className="card-title" style={{ marginRight: '170px' }}>{pack.codePack} </h5>
+                            <h5 className="card-title" style={{ marginRight: '100px' }}>{pack.codePack} </h5>
                             <span style={{ marginRight: '10px' }}>{pack.prix} <FontAwesomeIcon icon={faDollar}  style={{color: 'darkgoldenrod'}} /></span>
                             {pack.disponible !== 0 ? (
                                 <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green',marginRight: '0px' }} />
@@ -140,7 +164,8 @@ export default function Packs() {
 
 
                         </div>
-                    <h6 className="card-subtitle mb-2 text-body-secondary">Quantité: {pack.nbrProduits}</h6>
+                            <br/>
+                    {/*<h6 className="card-subtitle mb-2 text-body-secondary">Quantité: {pack.nbrProduits}</h6>*/}
                     <div className="d-flex align-items-center justify-content-between">
                     <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target={"#staticBackdrop"+pack.id}>
                         Produits
@@ -176,14 +201,37 @@ export default function Packs() {
                                 </div>
                                 <div className="modal-body">
                                     <p>
-                                        <button className="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                                        <button className="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target={"#collapseWidthExample"+pack.id} aria-expanded="false" aria-controls="collapseWidthExample">
                                             <FontAwesomeIcon icon={faPlus} /> Ajouter Produit
                                         </button>
                                     </p>
                                     <div >
-                                        <div className="collapse collapse-horizontal" id="collapseWidthExample">
+                                        <div className="collapse collapse-horizontal" id={"collapseWidthExample"+pack.id}>
                                             <div className="card card-body" style={{width: '470px'}}>
-                                                This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+                                                <div class="form-floating">
+
+                                                </div>
+                                                <div className="d-flex align-items-center ">
+                                                    <select
+                                                        onChange={(e) => setProduitId(e.target.value)}
+                                                        value={produit_id}
+                                                        className="form-select form-select-sm" aria-label="Small select example" style={{ width:'300px',marginRight: '3px' }}>
+                                                        {Array.isArray(produits) && produits.map((produit1,index) => (
+
+                                                                produit1 && (
+                                                                    <option key={index} value={produit1.id}>{produit1.nom}</option>
+
+                                                            )
+                                                        ))}
+                                                    </select>
+
+
+                                                    <button
+                                                    onClick={()=>{handleAjouterProduitToPack(pack.id)}}
+                                                    className="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" style={{ height:'33px'}}>
+                                                    <FontAwesomeIcon icon={faPlus} style={{ marginBottom:'2px'}} />
+                                                </button>
+                                                    </div>
                                             </div>
                                         </div>
                                     </div>
@@ -198,9 +246,9 @@ export default function Packs() {
                                         </thead>
                                         <tbody>
 
-                                        {Array.isArray(pack.produits) && pack.produits.map((produit)=>(
+                                        {Array.isArray(pack.produits) && pack.produits.map((produit,index)=>(
                                             produit && (
-                                                <tr  key={produit && produit.id}>
+                                                <tr  key={index}>
                                                     {produit && <td>{produit.id}</td>}
                                                     {produit &&<td>{produit.code_produit}</td>}
                                                     {produit &&<td>{produit.nom}</td>}
