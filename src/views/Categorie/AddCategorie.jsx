@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addCategorie } from "../../store/CategorieSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddCategorie() {
   const [nom, setNom] = useState("");
@@ -15,10 +17,11 @@ export default function AddCategorie() {
     <>
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-outline-secondary"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
+        <FontAwesomeIcon icon={faPlus}/>
         Ajouter Categorie
       </button>
 

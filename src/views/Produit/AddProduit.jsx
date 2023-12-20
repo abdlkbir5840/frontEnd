@@ -9,6 +9,8 @@ import {
   fetchAllCategories,
   selectCategories,
 } from "../../store/CategorieSlice";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function AddProduit() {
   const fournisseurs = useSelector(selectFournisseurs);
   const categories = useSelector(selectCategories);
@@ -48,10 +50,11 @@ export default function AddProduit() {
     <>
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-outline-secondary"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
+        <FontAwesomeIcon icon={faPlus}/>
         Ajouter Produit
       </button>
 
