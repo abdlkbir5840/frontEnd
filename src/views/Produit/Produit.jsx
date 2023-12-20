@@ -91,7 +91,7 @@ export default function Produit() {
         </div>
         {/* Statr */}
         <div class="customContanier">
-          {Array.isArray(produits) && produits.length>0 &&
+          {produits && Array.isArray(produits) && produits.length > 0 &&
             produits.map((produit, index) => (
               <div class="card" key={index}>
                 <span

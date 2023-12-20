@@ -54,13 +54,14 @@ export const addPack = createAsyncThunk(
 );
 export const addProduitToPack = createAsyncThunk(
     "pack/addProduitToPack",
-    async ({pack_id,produit_id}) => {
+    async ({pack_id,produit_id}, { rejectWithValue }) => {
         try {
             const response = await ajouterProduitToPack(pack_id,produit_id);
             console.log(response.data.pack)
             return response.data.pack;
+
         } catch (error) {
-            console.log(error);
+            return rejectWithValue(error.response.data.message);
         }
     }
 );
@@ -109,6 +110,7 @@ const packSlice = createSlice({
         pack: {},
         totalPages:null,
         status: "",
+        errorMessage :"",
         error: null,
     },
     extraReducers: (builder) => {
@@ -120,14 +122,24 @@ const packSlice = createSlice({
                 }
             })
             .addCase(addPack.fulfilled, (state, action) => {
-                console.log(action.payload)
-                state.packs.push(action.payload);
+
+                    console.log(action.payload)
+                    state.packs.push(action.payload);
+
+
             })
             .addCase(addProduitToPack.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.packs = state.packs.map((item) =>
                     item.id === action.payload.id ? { ...item, ...action.payload } : item
                 );
+                state.errorMessage="";
+
+            })
+            .addCase(addProduitToPack.rejected, (state, action) => {
+                 state.errorMessage=action.payload;
+                console.log(state.errorMessage)
+                // Ajoutez une logique supplémentaire ou des modifications d'état en cas de rejet
             })
             .addCase(updatePack.fulfilled, (state, action) => {
                 console.log(action.payload)
@@ -160,6 +172,7 @@ const packSlice = createSlice({
     },
 });
 export const selectPacks = (state) => state.pack.packs;
+export const selectError= (state) => state.pack.errorMessage;
 export const selectPack = (state) => state.pack.pack;
 export const totalPages = (state) => state.pack.totalPages;
 export const pack = packSlice.reducer;

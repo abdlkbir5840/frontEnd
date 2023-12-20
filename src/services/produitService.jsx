@@ -4,6 +4,9 @@ import {instance} from "../apis/AxiosInstance.js";
 export const getProduits = async (page)=> {
     return await instance.get(`produits?page=${page}`);
 }
+export const getAllProduits = async ()=> {
+    return await instance.get(`produits/all`);
+}
 export const search = async (search, page)=> {
     return await instance.get(`produits/nom/${search}?page=${page}`);
 }

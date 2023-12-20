@@ -8,7 +8,7 @@ import {
     faEdit,
     faPlus,
     faSearch, faStopCircle,
-    faTrash
+    faTrash, faWarning
 } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,7 +17,7 @@ import {
     fetchPacks,
     removePack,
     removeProduitFromPack,
-    searchPack,
+    searchPack, selectError,
     selectPacks,
     totalPages
 } from "../../store/PackSlice.jsx";
@@ -25,12 +25,13 @@ import EditClient from "../Client/EditClient.jsx";
 import {removeClient} from "../../store/ClientSlice.jsx";
 import NewPack from "./NewPack.jsx";
 import EditPack from "./EditPack.jsx";
-import {fetchProduits, selectProduits} from "../../store/ProduitSlice.jsx";
+import {fetchAllProduits, fetchProduits, selectProduits} from "../../store/ProduitSlice.jsx";
 
 export default function Packs() {
     const dispatch = useDispatch()
     const packs = useSelector(selectPacks);
     const produits = useSelector(selectProduits);
+    const errorM = useSelector(selectError);
     const totalPage = useSelector(totalPages);
     const [currentPage, setCurrentPage] = useState(1);
     const [query ,setQuery]= useState("")
@@ -40,7 +41,7 @@ export default function Packs() {
     useEffect(() => {
         console.log(totalPage)
         dispatch(fetchPacks(1));
-        dispatch(fetchProduits(1));
+        dispatch(fetchAllProduits());
 
     }, [dispatch]);
     const handleDeleteProductFromPack =  (packId,produitId) => {
@@ -57,7 +58,7 @@ export default function Packs() {
     const handleAjouterProduitToPack =  (pack_id) => {
         let pack = {pack_id,produit_id}
         dispatch(addProduitToPack(pack));
-
+        // console.log(errorM)
     };
     const handelPaginate = (page) => {
 
@@ -154,7 +155,7 @@ export default function Packs() {
                         </div>
                         <div className="card-body">
                         <div className="d-flex align-items-center justify-content-between">
-                            <h5 className="card-title" style={{ marginRight: '90px' }}>{pack.codePack} </h5>
+                            <h5 className="card-title" style={{ marginRight: '50px' }}>{pack.codePack} </h5>
                             <span style={{ marginRight: '10px' }}>{pack.prix} <FontAwesomeIcon icon={faDollar}  style={{color: 'darkgoldenrod'}} /></span>
                             {pack.disponible !== 0 ? (
                                 <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green',marginRight: '0px' }} />
@@ -196,11 +197,13 @@ export default function Packs() {
                         <div className="modal-dialog">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="staticBackdropLabel">Pack: {pack.codePack}</h1>
+                                    <h1 className="modal-title fs-5" id="staticBackdropLabel">Pack: {pack.codePack} </h1>
+
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div className="modal-body">
                                     <p>
+
                                         <button className="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target={"#collapseWidthExample"+pack.id} aria-expanded="false" aria-controls="collapseWidthExample">
                                             <FontAwesomeIcon icon={faPlus} /> Ajouter Produit
                                         </button>
@@ -212,6 +215,9 @@ export default function Packs() {
 
                                                 </div>
                                                 <div className="d-flex align-items-center ">
+                                                    <div>
+
+                                                    </div>
                                                     <select
                                                         onChange={(e) => setProduitId(e.target.value)}
                                                         value={produit_id}
@@ -232,9 +238,18 @@ export default function Packs() {
                                                     <FontAwesomeIcon icon={faPlus} style={{ marginBottom:'2px'}} />
                                                 </button>
                                                     </div>
+
                                             </div>
                                         </div>
                                     </div>
+
+                                    {errorM && (
+                                        <div className="d-flex justify-content-center align-items-center">
+                                        <div style={{width: '600px'}} className="alert alert-danger " role="alert">
+                                            <FontAwesomeIcon icon={faWarning} />   <span style={{fontSize: '12px'}}>{errorM}</span>
+                                        </div>
+                                        </div>
+                                    )}
                                     <table className="table">
                                         <thead>
                                         <tr>

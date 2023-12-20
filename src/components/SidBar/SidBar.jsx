@@ -44,12 +44,12 @@ export default function SidBar() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link d-flex align-items-center gap-2" href="fournisseur">
+                <Link className="nav-link d-flex align-items-center gap-2" to="fournisseur">
                   <svg className="bi">
                     <use xlinkHref="#file-earmark" />
                   </svg>
                   Fournisseurs
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link d-flex align-items-center gap-2" to="produit">
@@ -73,6 +73,14 @@ export default function SidBar() {
                     <use xlinkHref="#graph-up" />
                   </svg>
                   Packs
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link d-flex align-items-center gap-2" href="commande">
+                  <svg className="bi">
+                    <use xlinkHref="#graph-up" />
+                  </svg>
+                  Commandes
                 </a>
               </li>
               <li className="nav-item">

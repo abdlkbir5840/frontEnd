@@ -6,8 +6,8 @@ import {
     saveProduits,
     editProduits,
     addQuantite,
-    search
-  } from "../services/produitService";
+    search, getAllProduits
+} from "../services/produitService";
 
 export const fetchProduits = createAsyncThunk(
   "produits/fetchProduits",
@@ -19,6 +19,18 @@ export const fetchProduits = createAsyncThunk(
       console.log(error);
     }
   }
+);
+
+export const fetchAllProduits = createAsyncThunk(
+    "produits/fetchAllProduits",
+    async () => {
+        try {
+            const response = await getAllProduits();
+            return {data:response.data.produits};
+        } catch (error) {
+            console.log(error);
+        }
+    }
 );
 export const searchProduits  = createAsyncThunk(
   "produits/searchProduits ",
@@ -94,6 +106,9 @@ const ProduitSlice = createSlice({
         state.produits = action.payload.data;
         state.totalPages = action.payload.totalPages
       })
+        .addCase(fetchAllProduits.fulfilled, (state, action) => {
+            state.produits = action.payload.data;
+        })
       .addCase(searchProduits.fulfilled, (state, action) => {
         state.totalPages = action.payload.totalPages
         state.produits = action.payload.data;

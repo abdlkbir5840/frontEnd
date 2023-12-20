@@ -17,34 +17,39 @@ export default function Fournisseur() {
   const totalPage = useSelector(totalPages);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     dispatch(fetchFournisseurs(1));
+    if(fournisseurs.length>=0){
+    setLoading(false);
+    }
+    setLoading(false);
   }, [dispatch]);
 
   const handleDeleteFournisseur = (fournisseur) => {
     dispatch(removeFournisseur(fournisseur));
   };
   const handelPaginate = (page) => {
-    if(search!==""){
+    if (search !== "") {
       dispatch(searchFournisseur({ words: search, page: page }));
-      
-      setCurrentPage(page);
-    }else{
-      if(currentPage>=totalPage){ 
-        setCurrentPage(1);
-      dispatch(fetchFournisseurs(1));
-      }else{
-      dispatch(fetchFournisseurs(page));
-      setCurrentPage(page);
-    }
-    }
 
+      setCurrentPage(page);
+    } else {
+      if (currentPage >= totalPage) {
+        setCurrentPage(1);
+        dispatch(fetchFournisseurs(1));
+      } else {
+        dispatch(fetchFournisseurs(page));
+        setCurrentPage(page);
+      }
+    }
   };
   const handleSearch = () => {
-    if(search===""){
-      dispatch(fetchFournisseurs(1))
-    }else{
-      setCurrentPage(1)
+    if (search === "") {
+      dispatch(fetchFournisseurs(1));
+    } else {
+      setCurrentPage(1);
       dispatch(searchFournisseur({ words: search, page: 1 }));
     }
   };
@@ -88,7 +93,7 @@ export default function Fournisseur() {
         </div>
       </div>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <AddFournisseur />
+        <AddFournisseur />
         <form className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -122,7 +127,13 @@ export default function Fournisseur() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(fournisseurs) && fournisseurs &&
+            {loading && (
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            )}
+            {Array.isArray(fournisseurs) &&
+              fournisseurs &&
               fournisseurs.slice(0, 5).map((fournisseur) => (
                 <tr key={fournisseur.id}>
                   <td>{fournisseur.id}</td>
@@ -181,13 +192,17 @@ export default function Fournisseur() {
             ))}
             <li
               class={
-                totalPage && currentPage === totalPage ? "page-item disabled" : "page-item"
+                totalPage && currentPage === totalPage
+                  ? "page-item disabled"
+                  : "page-item"
               }
               onClick={() => handelPaginate(currentPage + 1)}
             >
               <a
                 class={
-                  totalPage && currentPage === totalPage ? "page-link disabled" : "page-link"
+                  totalPage && currentPage === totalPage
+                    ? "page-link disabled"
+                    : "page-link"
                 }
                 href="#"
                 aria-label="Next"
