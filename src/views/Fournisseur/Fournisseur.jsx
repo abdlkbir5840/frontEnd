@@ -122,7 +122,7 @@ export default function Fournisseur() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(fournisseurs) &&
+            {Array.isArray(fournisseurs) && fournisseurs &&
               fournisseurs.slice(0, 5).map((fournisseur) => (
                 <tr key={fournisseur.id}>
                   <td>{fournisseur.id}</td>
@@ -181,13 +181,13 @@ export default function Fournisseur() {
             ))}
             <li
               class={
-                currentPage === totalPage ? "page-item disabled" : "page-item"
+                totalPage && currentPage === totalPage ? "page-item disabled" : "page-item"
               }
               onClick={() => handelPaginate(currentPage + 1)}
             >
               <a
                 class={
-                  currentPage === totalPage ? "page-link disabled" : "page-link"
+                  totalPage && currentPage === totalPage ? "page-link disabled" : "page-link"
                 }
                 href="#"
                 aria-label="Next"
