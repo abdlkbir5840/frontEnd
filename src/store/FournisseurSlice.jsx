@@ -7,7 +7,8 @@ import {
   editFournisseur,
   search
 } from "../services/fournisseurService";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const fetchFournisseurs = createAsyncThunk(
   "fournisseur/fetchFournisseurs",
   async (page) => {
@@ -46,12 +47,13 @@ export const searchFournisseur = createAsyncThunk(
 );
 export const addFournisseur = createAsyncThunk(
   "fournisseur/addFournisseurs",
-  async (fournisseur) => {
+  async (fournisseur, { rejectWithValue }) => {
     try {
       const response = await saveFournisseur(fournisseur);
       return response.data.fournisseur;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -104,6 +106,10 @@ const fournisseurSlice = createSlice({
       .addCase(addFournisseur.fulfilled, (state, action) => {
           console.log(action.payload)
         state.fournisseurs.push(action.payload);
+      })
+      .addCase(addFournisseur.rejected, (state, action) => {
+        console.error('Erreur lors de l\'ajout du fournisseur:', action.payload);
+        toast.error(action.payload.message || 'Une erreur s\'est produite lors de l\'ajout du fournisseur');
       })
       .addCase(updateFournisseur.fulfilled, (state, action) => {
         console.log(action.payload)

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFournisseur } from "../../store/FournisseurSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 export default function AddFournisseur() {
   const [code_fournisseur, setCodeFournisseur] = useState("");
   const [nom, setNom] = useState("");
@@ -18,10 +20,11 @@ export default function AddFournisseur() {
     <>
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-outline-secondary"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
+        <FontAwesomeIcon icon={faPlus}/>
         Ajouter Fournisseur
       </button>
 

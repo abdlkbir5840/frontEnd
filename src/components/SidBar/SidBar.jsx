@@ -1,12 +1,18 @@
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Cookie from 'cookie-universal'
+import axios from "axios";
+import { instance } from "../../apis/AxiosInstance";
 export default function SidBar() {
   const cookies = Cookie()
   const navigate = useNavigate();
-  const handleLogout = () => {
-    cookies.remove('login_token', { path: '/' });
-    navigate('/')
+  const handleLogout = async() => {
+    await instance.post("/logout").then((response)=>{
+      cookies.remove('login_token', { path: '/' });
+    }).then(()=>{
+      navigate('/');
+    })
+    
   }
   return (
     <>
@@ -42,6 +48,14 @@ export default function SidBar() {
                   </svg>
                   Dashboard
                 </a>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link d-flex align-items-center gap-2" to="categorie">
+                  <svg className="bi">
+                    <use xlinkHref="#file-earmark" />
+                  </svg>
+                  Categories
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link d-flex align-items-center gap-2" to="fournisseur">

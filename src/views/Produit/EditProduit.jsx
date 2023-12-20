@@ -55,7 +55,7 @@ export default function EditProduit({ produitInfo }) {
         data-bs-toggle="modal"
         data-bs-target={"#exampleModal" + produitInfo.code_produit}
       >
-        <span class="wishlist bg-success">
+        <span class="wishlist bg-primary">
           <FontAwesomeIcon icon={faEdit} />
         </span>
       </button>
