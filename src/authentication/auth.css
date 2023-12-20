@@ -1,52 +1,15 @@
-.account-block {
-  padding: 0;
-  background-image: url(https://img.freepik.com/free-vector/follow-me-social-business-theme-design_24877-50426.jpg?w=740&t=st=1702260419~exp=1702261019~hmac=f5e2c4ec50b8e513e944ba28a53cb84c17e994c19ef2216346b24f2d746b6c50);
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* background-color: #0d6efd; */
-  height: 100%;
-  position: relative;
-}
-.account-block .overlay {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-.account-block .account-testimonial {
-  text-align: center;
-  color: #fff;
-  position: absolute;
-  margin: 0 auto;
-  padding: 0 1.75rem;
-  bottom: 3rem;
-  left: 0;
-  right: 0;
+.a{
+  /* border: 1px solid gray; */
+  background-color: white;
+  padding: 30px;
+  width: 500px;
 }
 
-.text-theme {
-  color: #5369f8 !important;
-}
-
-.btn-theme {
-  background-color: #5369f8;
-  border-color: #5369f8;
-  color: #fff;
-  padding: 5px 30px;
-}
-.login-container {
+.l{
+  /* border: 6px solid red; */
+  height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-}
-
-.login-main {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduit } from "../../store/ProduitSlice";
+import { addProduit, updateProduit } from "../../store/ProduitSlice";
 import {
   fetchAllFournisseurs,
   selectFournisseurs,
@@ -9,19 +9,23 @@ import {
   fetchAllCategories,
   selectCategories,
 } from "../../store/CategorieSlice";
-export default function AddProduit() {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+export default function EditProduit({ produitInfo }) {
   const fournisseurs = useSelector(selectFournisseurs);
   const categories = useSelector(selectCategories);
-  const [code_produit, setCodeProduit] = useState("");
-  const [nom, setNom] = useState("");
+  const [code_produit, setCodeProduit] = useState(produitInfo.code_produit);
+  const [nom, setNom] = useState(produitInfo.nom);
   const [imagePath, setImagePath] = useState("");
-  const [qte_entree, setQteEntree] = useState("");
-  const [prix_unitaire, setPrixUnitaire] = useState("");
-  const [description, setDescription] = useState("");
+  const [quantite, setQuantite] = useState(produitInfo.quantite);
+  const [prix_unitaire, setPrixUnitaire] = useState(produitInfo.prix_unitaire);
+  const [description, setDescription] = useState(produitInfo.description);
   const [categorie_id, setCategorieId] = useState("");
-  const [fournisseur_id, setFournisseurId] = useState("");
+  const [id, setId] = useState(produitInfo.id);
   const dispatch = useDispatch();
+
   useEffect(() => {
+    console.log(produitInfo);
     dispatch(fetchAllFournisseurs());
     dispatch(fetchAllCategories());
   }, [dispatch]);
@@ -31,33 +35,35 @@ export default function AddProduit() {
     const image = imagePath.replace(basePath, "");
 
     const produit = {
-      code_produit,
-      nom,
-      image,
-      qte_entree,
-      prix_unitaire,
-      description,
-      categorie_id,
-      fournisseur_id,
+        "id": id,
+        "code_produit": code_produit,
+        "nom": nom,
+        "image": image,
+        "quantite": quantite,
+        "prix_unitaire": prix_unitaire,
+        "description": description,
+        "categorie_id": categorie_id
     };
     console.log(produit);
-    dispatch(addProduit(produit));
+    dispatch(updateProduit({produit}));
   };
 
   return (
     <>
       <button
         type="button"
-        class="btn btn-primary"
+        class="bg-light outline-non border-0"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target={"#exampleModal" + produitInfo.code_produit}
       >
-        Ajouter Produit
+        <span class="wishlist bg-success">
+          <FontAwesomeIcon icon={faEdit} />
+        </span>
       </button>
 
       <div
         class="modal fade"
-        id="exampleModal"
+        id={"exampleModal" + produitInfo.code_produit}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -94,19 +100,19 @@ export default function AddProduit() {
                   ></input>
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Quantite Entree :</label>
-                  <input
-                    onChange={(e) => setQteEntree(e.target.value)}
-                    value={qte_entree}
-                    className="form-control"
-                  ></input>
-                </div>
-                <div className="mb-3">
                   <label className="form-label">Prix Unitaire :</label>
                   <input
                     onChange={(e) => setPrixUnitaire(e.target.value)}
                     value={prix_unitaire}
                     className="form-control"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Quantite :</label>
+                  <input
+                    value={quantite}
+                    className="form-control"
+                    disabled
                   ></input>
                 </div>
                 <div className="mb-3">
@@ -120,21 +126,6 @@ export default function AddProduit() {
                     {categories.map((categorie) => (
                       <option key={categorie.id} value={categorie.id}>
                         {categorie.nom}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Fournisseur :</label>
-                  <select
-                    onChange={(e) => setFournisseurId(e.target.value)}
-                    value={fournisseur_id}
-                    className="form-select"
-                  >
-                    <option value="">Sélectionner un Fournisseur</option>
-                    {fournisseurs.map((fournisseur) => (
-                      <option key={fournisseur.id} value={fournisseur.id}>
-                        {fournisseur.nom}
                       </option>
                     ))}
                   </select>
@@ -175,10 +166,13 @@ export default function AddProduit() {
               >
                 Close
               </button>
-              <button 
-              data-bs-dismiss="modal"
-              onClick={handleAdd} type="button" class="btn btn-primary">
-                Ajouter Produit
+              <button
+                data-bs-dismiss="modal"
+                onClick={handleAdd}
+                type="button"
+                class="btn btn-primary"
+              >
+                Modifier Produit
               </button>
             </div>
           </div>

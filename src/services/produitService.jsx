@@ -21,6 +21,7 @@ export const addQuantite = async (qte_entree, produitId, fournisseurId)=> {
     return await instance.post(`produits/quantite/${produitId}/${fournisseurId}`,data);
 }
 export const editProduits = async (produit)=> {
+
     return await instance.put(`produits/${produit.id}`,produit);
 }
 export const deleteProduits = async (id)=> {

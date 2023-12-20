@@ -120,7 +120,7 @@ export default function Categorie() {
           </thead>
           <tbody>
             {Array.isArray(categories) &&
-              categories.map((categorie) => (
+              categories.slice(0, 5).map((categorie) => (
                 <tr key={categorie.id}>
                   <td>{categorie.id}</td>
                   <td>{categorie.nom}</td>

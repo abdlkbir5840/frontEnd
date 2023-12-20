@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "pexels";
 import "./produit.css";
+import image from "./image.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProduits,
@@ -21,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AddProduit from "./AddProduit";
 import AddQuantite from "./addQuantite";
+import EditProduit from "./EditProduit";
 export default function Produit() {
   const dispatch = useDispatch();
   const produits = useSelector(selectProduits);
@@ -32,6 +34,10 @@ export default function Produit() {
     console.log(produits)
   }, [dispatch]);
 
+  const handleDelete = (produit) => {
+    console.log(produit)
+    dispatch(removeProduit(produit))
+  }
   const handelPaginate = (page) => {
     if (search !== "") {
       dispatch(searchProduits({ words: search, page: page }));
@@ -71,6 +77,7 @@ export default function Produit() {
       (_, index) => startIdx + index
     );
   };
+
   return (
     <>
       <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -102,8 +109,11 @@ export default function Produit() {
                 </span>
                 <div class="card-image">
                   <img
-                    src="https://uno.ma/pub/media/catalog/product/cache/af8d7fd2c4634f9c922fba76a4a30c04/u/1/u1.jpg"
+                    // src="https://uno.ma/pub/media/catalog/product/cache/af8d7fd2c4634f9c922fba76a4a30c04/u/1/u1.jpg"
+                    // src={"./images/image1.jpg"}
+                    src={image}                 
                     width="120"
+                    alt="Image du produit"
                   />
                 </div>
 
@@ -148,10 +158,18 @@ export default function Produit() {
                             nom: produit.nom
                         }}/>
                       </span>
-                      <span class="wishlist bg-primary">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </span>
-                      <span class="wishlist bg-danger">
+                      {/* <span class="wishlist bg-primary"> */}
+                        <EditProduit 
+                        produitInfo={{
+                          id: produit.id,
+                          prix_unitaire: produit.prix_unitaire,
+                          code_produit:produit.code_produit,
+                          nom: produit.nom,
+                          quantite:produit.quantite,
+                          description:produit.description,
+                      }}/>
+                      {/* </span> */}
+                      <span class="wishlist bg-danger" onClick={()=>handleDelete(produit)}>
                         <FontAwesomeIcon icon={faTrash} />
                       </span>
                     </div>
