@@ -70,6 +70,14 @@ export default function SidBar() {
                 </a>
               </li>
               <li className="nav-item">
+                <a className="nav-link d-flex align-items-center gap-2" href="commande">
+                  <svg className="bi">
+                    <use xlinkHref="#graph-up" />
+                  </svg>
+                  Commandes
+                </a>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link d-flex align-items-center gap-2" href="#">
                   <svg className="bi">
                     <use xlinkHref="#puzzle" />

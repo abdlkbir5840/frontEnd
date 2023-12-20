@@ -4,6 +4,7 @@ import { categorie } from "./CategorieSlice";
 import { produit } from "./ProduitSlice";
 import {client} from "./ClientSlice";
 import {pack} from "./PackSlice.jsx";
+import {command} from "./CommandeSlice.jsx";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     produit: produit,
     client : client,
     pack : pack,
+    command : command,
   },
 });
 

@@ -13,6 +13,7 @@ import Categorie from "./views/Categorie/Categorie";
 import Produit from "./views/Produit/Produit";
 import EditClient from "./views/Client/EditClient.jsx";
 import Packs from "./views/Pack/Packs";
+import Commande from "./views/Commande/Commande.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="produit" element={<Produit />} />
               <Route path="client" element={<Clients/>} />
               <Route path="pack" element={<Packs/>} />
+              <Route path="commande" element={<Commande/>} />
             </Route>
           {/* </Route> */}
         </Routes>
