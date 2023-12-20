@@ -78,8 +78,18 @@ export default function Clients() {
                     <NewClient/>
                 </div>
             </div>
-
+            {clients.length <=0 ? <div  style={{display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '75vh',}}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                :
+                <>
             <div className="card-body">
+
                 <form onSubmit={handleSearch}>
                     <div className="row g-2">
                         <div className="col-auto">
@@ -108,6 +118,7 @@ export default function Clients() {
                 </form>
 
             </div>
+
             <br/>
             <div className="table-responsive small">
                 <table className="table">
@@ -208,6 +219,7 @@ export default function Clients() {
                     </ul>
                 </nav>
             </div>
+                </>}
         </main>
 
 

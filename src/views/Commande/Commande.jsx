@@ -84,6 +84,7 @@ export default function Commande() {
     // };
 
     return (
+
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2">Suivis des commandes</h1>
@@ -123,6 +124,16 @@ export default function Commande() {
 
             </div>
             <br/>
+            {commands === undefined ? <div  style={{display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '75vh',}}>
+                    <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+                    </div>
+            </div>
+            :
+
             <div className="table-responsive small">
                 <table className="table">
                     <thead>
@@ -278,7 +289,7 @@ export default function Commande() {
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div>}
         </main>
 
 

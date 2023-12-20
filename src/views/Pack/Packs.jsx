@@ -110,7 +110,16 @@ export default function Packs() {
                     <NewPack/>
                 </div>
             </div>
-
+            {packs.length <= 0  ? <div  style={{display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '75vh',}}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                :
+        <>
                 <form onSubmit={handleSearch} className='ms-4'>
                     <div className="row g-2">
                         <div className="col-auto">
@@ -350,6 +359,7 @@ export default function Packs() {
                 </nav>
             </div>
             </div>
+            </>}
         </main>
 
 
