@@ -1,7 +1,13 @@
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
+import Cookie from 'cookie-universal'
 export default function SidBar() {
+  const cookies = Cookie()
   const navigate = useNavigate();
+  const handleLogout = () => {
+    cookies.remove('login_token', { path: '/' });
+    navigate('/')
+  }
   return (
     <>
       <div className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
@@ -134,7 +140,7 @@ export default function SidBar() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link d-flex align-items-center gap-2" href="#">
+                <a onClick={handleLogout} className="nav-link d-flex align-items-center gap-2" href="#">
                   <svg className="bi">
                     <use xlinkHref="#door-closed" />
                   </svg>

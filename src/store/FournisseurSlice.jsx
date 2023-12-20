@@ -49,7 +49,7 @@ export const addFournisseur = createAsyncThunk(
   async (fournisseur) => {
     try {
       const response = await saveFournisseur(fournisseur);
-      return response.data.data;
+      return response.data.fournisseur;
     } catch (error) {
       console.log(error);
     }

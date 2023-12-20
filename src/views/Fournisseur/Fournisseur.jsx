@@ -123,7 +123,7 @@ export default function Fournisseur() {
           </thead>
           <tbody>
             {Array.isArray(fournisseurs) &&
-              fournisseurs.map((fournisseur) => (
+              fournisseurs.slice(0, 5).map((fournisseur) => (
                 <tr key={fournisseur.id}>
                   <td>{fournisseur.id}</td>
                   <td>{fournisseur.code_fournisseur}</td>

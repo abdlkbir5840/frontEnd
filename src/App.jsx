@@ -19,11 +19,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<SignUp />} />
-          <Route path="/main" element={<Main />} />
-          {/* <Route element={<RequireAuth />}> */}
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Login />} />
+          {/* <Route path="/register" element={<SignUp />} /> */}
+          {/* <Route path="/main" element={<Main />} /> */}
+          <Route element={<RequireAuth />}>
             <Route path="/dashboard/" element={<ProtectedRoutes />}>
               <Route path="fournisseur" element={<Fournisseur />} />
               <Route path="categorie" element={<Categorie />} />
@@ -31,7 +31,7 @@ function App() {
               <Route path="client" element={<Clients/>} />
               <Route path="pack" element={<Packs/>} />
             </Route>
-          {/* </Route> */}
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

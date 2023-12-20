@@ -58,7 +58,7 @@ export const addproductQuantite = createAsyncThunk(
 
 export const updateProduit = createAsyncThunk(
   "produits/updateProduit",
-  async (produit) => {
+  async ({produit}) => {
     try {
       const response = await editProduits(produit);
       return response.data.data;
