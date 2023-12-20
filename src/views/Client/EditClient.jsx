@@ -52,7 +52,7 @@ export default function EditClient({infoClient}){
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Modal title
+                                Modifier un client
                             </h5>
                             <button
                                 // onClick={()=>handleEmpty()}

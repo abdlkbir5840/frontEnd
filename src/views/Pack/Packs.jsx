@@ -31,7 +31,6 @@ export default function Packs() {
     const dispatch = useDispatch()
     const packs = useSelector(selectPacks);
     const produits = useSelector(selectProduits);
-    const errorM = useSelector(selectError);
     const totalPage = useSelector(totalPages);
     const [currentPage, setCurrentPage] = useState(1);
     const [query ,setQuery]= useState("")
@@ -252,13 +251,7 @@ export default function Packs() {
                                         </div>
                                     </div>
 
-                                    {errorM && (
-                                        <div className="d-flex justify-content-center align-items-center">
-                                        <div style={{width: '600px'}} className="alert alert-danger " role="alert">
-                                            <FontAwesomeIcon icon={faWarning} />   <span style={{fontSize: '12px'}}>{errorM}</span>
-                                        </div>
-                                        </div>
-                                    )}
+
                                     <table className="table">
                                         <thead>
                                         <tr>

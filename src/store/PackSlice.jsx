@@ -10,6 +10,7 @@ import {
 } from "../services/packService.jsx";
 import {updateClient} from "./ClientSlice.jsx";
 import {searchFournisseur} from "./FournisseurSlice.jsx";
+import {toast} from "react-toastify";
 
 
 
@@ -61,7 +62,8 @@ export const addProduitToPack = createAsyncThunk(
             return response.data.pack;
 
         } catch (error) {
-            return rejectWithValue(error.response.data.message);
+            toast.error(error.response.data.message || 'Une erreur s\'est produite lors de l\'ajout du produit');
+            // return rejectWithValue(error.response.data.message);
         }
     }
 );
@@ -125,7 +127,7 @@ const packSlice = createSlice({
 
                     console.log(action.payload)
                     state.packs.push(action.payload);
-
+                toast.success('Pack ajouter avec succes' || 'Ajout avec succes');
 
             })
             .addCase(addProduitToPack.fulfilled, (state, action) => {
@@ -133,19 +135,22 @@ const packSlice = createSlice({
                 state.packs = state.packs.map((item) =>
                     item.id === action.payload.id ? { ...item, ...action.payload } : item
                 );
+                toast.success('Produit  ajouter avec succes dans le pack' || 'Ajout avec succes');
                 state.errorMessage="";
 
             })
-            .addCase(addProduitToPack.rejected, (state, action) => {
-                 state.errorMessage=action.payload;
-                console.log(state.errorMessage)
-                // Ajoutez une logique supplémentaire ou des modifications d'état en cas de rejet
-            })
+            // .addCase(addProduitToPack.rejected, (state, action) => {
+            //      // state.errorMessage=action.payload;
+            //     // toast.error(action.payload || 'Une erreur s\'est produite lors de l\'ajout du produit');
+            //     console.log(state.errorMessage)
+            //     // Ajoutez une logique supplémentaire ou des modifications d'état en cas de rejet
+            // })
             .addCase(updatePack.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.packs = state.packs.map((item) =>
                     item.id === action.payload.id ? { ...item, ...action.payload } : item
                 );
+                toast.success('Pack modifier avec succes' || 'Pack modifier avec succes');
             })
             .addCase(searchPack.fulfilled, (state, action) => {
                 state.totalPages = action.payload.totalPages
@@ -162,12 +167,14 @@ const packSlice = createSlice({
                         produits: pack.produits.filter((p) => p.id !== action.payload),
                     };
                 });
+                toast.success('Produit supprimer avec succes' || 'Pack supprimer avec succes');
                 console.log(state.packs)
             })
             .addCase(removePack.fulfilled, (state, action) => {
                 state.packs = state.packs.filter(
                     (item) => item.id !== action.payload.id
                 );
+                toast.success('Pack supprimer avec succes' || 'Pack supprimer avec succes');
             });
     },
 });

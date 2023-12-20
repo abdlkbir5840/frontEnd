@@ -6,6 +6,7 @@ import {
     getClients,
     saveClient
 } from "../services/clientService.jsx";
+import {toast} from "react-toastify";
 
 
 export const fetchClients = createAsyncThunk(
@@ -94,17 +95,20 @@ const clientSlice = createSlice({
             .addCase(addClient.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.clients.push(action.payload);
+                toast.success('Client ajouter avec succes' || 'Client ajouter avec succes');
             })
             .addCase(updateClient.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.clients = state.clients.map((item) =>
                     item.id === action.payload.id ? { ...item, ...action.payload } : item
                 );
+                toast.success('Client modifier avec succes' || 'Client modifier avec succes');
             })
             .addCase(removeClient.fulfilled, (state, action) => {
                 state.clients = state.clients.filter(
                     (item) => item.id !== action.payload.id
                 );
+                toast.success('Client supprimer avec succes' || 'Client supprimer avec succes');
             });
     },
 });

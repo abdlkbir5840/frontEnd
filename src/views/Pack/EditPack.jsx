@@ -140,7 +140,7 @@ export default function EditPack({infoPack}){
                                 type="button" class="btn btn-primary"
                                 data-bs-dismiss="modal">
 
-                                Modifier
+                                Modifier un pack
                             </button>
                         </div>
                     </div>
