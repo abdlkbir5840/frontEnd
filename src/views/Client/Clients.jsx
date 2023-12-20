@@ -23,6 +23,12 @@ export default function Clients() {
     const handleDeleteClient =  (client) => {
         console.log(client);
         dispatch(removeClient(client));
+        if(clients.length<=1) {
+            setCurrentPage(currentPage-1)
+            dispatch(fetchClients(currentPage-1))
+        }else{
+            dispatch(fetchClients(currentPage))
+        }
 
     };
     const handelPaginate = (page) => {
@@ -75,7 +81,7 @@ export default function Clients() {
                 <h1 className="h2">Gestion des clients</h1>
                 <div className="btn-toolbar mb-2 mb-md-0">
 
-                    <NewClient/>
+                    <NewClient info={{page:currentPage}}/>
                 </div>
             </div>
             {clients.length <=0 ? <div  style={{display: 'flex',
@@ -135,7 +141,7 @@ export default function Clients() {
                     </tr>
                     </thead>
                     <tbody>
-                    {Array.isArray(clients) && clients.map((client)=>(
+                    {Array.isArray(clients) && clients.slice(0,5).map((client)=>(
                         client && (
                         <tr  key={client && client.id}>
                             {client && <td>{client.id}</td>}

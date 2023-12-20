@@ -3,10 +3,10 @@ import {saveClient} from "../../services/clientService.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addFournisseur} from "../../store/FournisseurSlice.jsx";
-import {addClient} from "../../store/ClientSlice.jsx";
+import {addClient, fetchClients} from "../../store/ClientSlice.jsx";
 import {faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-export default function NewClient(){
+export default function NewClient({info}){
     const [firstName,setFirstName]= useState("");
     const [lastName,setLastName]= useState("");
     const [email,setEmail]= useState("");
@@ -18,6 +18,7 @@ export default function NewClient(){
     const  handleSaveClient = () => {
         const client = {firstName,lastName, email, phone, adresse,password};
         dispatch(addClient(client));
+        dispatch(fetchClients(info.page));
     };
 
     return(
