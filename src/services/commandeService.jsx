@@ -20,6 +20,9 @@ export const getCommands = async (page)=> {
 //     return instance.post(`clients`,client);
 // }
 //
+export const getCommande = async (commande_date)=> {
+    return instance.get(`commandes/date_commande/${commande_date}`);
+}
 export const editCommandeStatus = (commande)=> {
     console.log(commande)
     return instance.put(`commandes/${commande.id}`,commande);

@@ -17,7 +17,7 @@ export const getClientByFirstNameAndLastName = async (firstName,lastName)=> {
     console.log("testsdfs")
 }
 export const saveClient = (client)=> {
-    return instance.post(`clients`,client);
+    return instance.post(`registerClient`,client);
 }
 
 export const editClient = (client)=> {

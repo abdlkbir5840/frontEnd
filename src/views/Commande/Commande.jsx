@@ -5,15 +5,22 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 
-import {fetchCommands, selectCommands, totalPages, updateCommandeStatus} from "../../store/CommandeSlice.jsx";
+import {
+    fetchCommands,
+    searchCommande,
+    selectCommands,
+    totalPages,
+    updateCommandeStatus
+} from "../../store/CommandeSlice.jsx";
 import {updateClient} from "../../store/ClientSlice.jsx";
+import {searchPack} from "../../store/PackSlice.jsx";
 export default function Commande() {
     const dispatch = useDispatch()
     const commands = useSelector(selectCommands);
     const totalPage = useSelector(totalPages);
     const [currentPage, setCurrentPage] = useState(1);
     // const [status ,setStatus]= useState()
-    // const [lastName ,setLastName]= useState("")
+    const [date ,setDate]= useState()
     const navigate = useNavigate();
     useEffect(() => {
         console.log(totalPage)
@@ -82,6 +89,12 @@ export default function Commande() {
     //         // console.log(firstName+" "+lastName)
     //         dispatch(searchClient({firstName,lastName}));}
     // };
+    const handleSearch = (e) => {
+        e.preventDefault()
+        console.log(date)
+        dispatch(searchCommande(date));
+        console.log(commands)
+    };
 
     return (
 
@@ -95,32 +108,25 @@ export default function Commande() {
             </div>
 
             <div className="card-body">
-                {/*<form onSubmit={handleSearch}>*/}
-                {/*    <div className="row g-2">*/}
-                {/*        <div className="col-auto">*/}
-                {/*            <input*/}
-                {/*                value={lastName}*/}
-                {/*                onChange={(e)=>setLastName(e.target.value)}*/}
-                {/*                className="form-control"*/}
-                {/*                placeholder="Nom"*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*        <div className="col-auto">*/}
-                {/*            <input*/}
-                {/*                value={firstName}*/}
-                {/*                onChange={(e)=>setFirstName(e.target.value)}*/}
-                {/*                className="form-control"*/}
-                {/*                placeholder="Prénom"*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*        <div className="col-auto">*/}
-                {/*            <button*/}
-                {/*                className="btn btn-primary">*/}
-                {/*                <FontAwesomeIcon icon={faSearch} />*/}
-                {/*            </button>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</form>*/}
+                <form onSubmit={handleSearch}>
+                    <div className="row g-2">
+                        <div className="col-auto">
+                            <input
+                                value={date}
+                                onChange={(e)=>setDate(e.target.value)}
+                                className="form-control"
+                                placeholder="Date de Commande"
+                                type="date"
+                            />
+                        </div>
+                        <div className="col-auto">
+                            <button
+                                className="btn btn-primary">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
             </div>
             <br/>

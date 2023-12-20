@@ -12,10 +12,11 @@ export default function NewClient(){
     const [email,setEmail]= useState("");
     const [phone,setPhone]= useState("");
     const [adresse,setAdresse]= useState("");
+    const [password,setPassword]= useState("");
 
     const dispatch = useDispatch();
     const  handleSaveClient = () => {
-        const client = {firstName,lastName, email, phone, adresse};
+        const client = {firstName,lastName, email, phone, adresse,password};
         dispatch(addClient(client));
     };
 
@@ -75,7 +76,14 @@ export default function NewClient(){
                                                     <input
                                                         onChange={(e)=> setEmail(e.target.value)}
                                                         value={email}
-                                                        className="form-control" ></input>
+                                                        className="form-control" type="email" ></input>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label  className="form-label">Mot de pass :</label>
+                                                    <input
+                                                        onChange={(e)=> setPassword(e.target.value)}
+                                                        value={password}
+                                                        className="form-control" type= "password" ></input>
                                                 </div>
                                                 <div className="mb-3">
                                                     <label  className="form-label">Num.Télephone :</label>

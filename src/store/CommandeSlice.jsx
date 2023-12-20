@@ -6,7 +6,7 @@ import {
     getClients,
     saveClient
 } from "../services/clientService.jsx";
-import {editCommandeStatus, getCommands} from "../services/commandeService.jsx";
+import {editCommandeStatus, getCommande, getCommands} from "../services/commandeService.jsx";
 
 
 export const fetchCommands = createAsyncThunk(
@@ -23,17 +23,17 @@ export const fetchCommands = createAsyncThunk(
         }
     }
 );
-// export const searchClient = createAsyncThunk(
-//     "client/searchClient",
-//     async ({firstName,lastName}) => {
-//         try {
-//             const response = await getClientByFirstNameAndLastName(firstName,lastName);
-//             return {data:response.data.client.data,totalPages:response.data.client.totalPages};
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }
-// );
+export const searchCommande = createAsyncThunk(
+    "commande/searchCommande",
+    async (commande_date) => {
+        try {
+            const response = await getCommande(commande_date);
+            return {data:response.data.commande.data,totalPages:response.data.commande.totalPages};
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
 // export const addClient = createAsyncThunk(
 //     "client/addClients",
 //     async (client) => {
@@ -90,12 +90,12 @@ const commandSlice = createSlice({
                     state.comands = action.payload.data;
                 }
             })
-            // .addCase(searchClient.fulfilled, (state, action) => {
-            //     state.totalPages = action.payload.totalPages
-            //     state.clients = action.payload.data;
-            //     console.log(action.payload.totalPages)
-            //     console.log(action.payload.data)
-            // })
+            .addCase(searchCommande.fulfilled, (state, action) => {
+                state.totalPages = action.payload.totalPages
+                state.comands = action.payload.data;
+                console.log(action.payload.totalPages)
+                console.log(action.payload.data)
+            })
             // .addCase(addClient.fulfilled, (state, action) => {
             //     console.log(action.payload)
             //     state.clients.push(action.payload);
