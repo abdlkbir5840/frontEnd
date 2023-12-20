@@ -8,7 +8,6 @@ import {
   search
 } from "../services/fournisseurService";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 export const fetchFournisseurs = createAsyncThunk(
   "fournisseur/fetchFournisseurs",
   async (page) => {
@@ -53,6 +52,16 @@ export const addFournisseur = createAsyncThunk(
       return response.data.fournisseur;
     } catch (error) {
       console.error(error);
+
+      if (error.response?.status === 422) {
+        const validationErrors = error.response.data.erreurs;
+
+        Object.values(validationErrors).forEach((error) => {
+          toast.error(error[0] || 'Erreur de validation');
+        });
+      } else {
+        toast.error(error.response?.data.message || 'Une erreur s\'est produite lors de l\'ajout du fournisseur');
+      }
       return rejectWithValue(error.response?.data);
     }
   }
@@ -106,10 +115,7 @@ const fournisseurSlice = createSlice({
       .addCase(addFournisseur.fulfilled, (state, action) => {
           console.log(action.payload)
         state.fournisseurs.push(action.payload);
-      })
-      .addCase(addFournisseur.rejected, (state, action) => {
-        console.error('Erreur lors de l\'ajout du fournisseur:', action.payload);
-        toast.error(action.payload.message || 'Une erreur s\'est produite lors de l\'ajout du fournisseur');
+        toast.success('Fournisseur ajouté avec succès');
       })
       .addCase(updateFournisseur.fulfilled, (state, action) => {
         console.log(action.payload)
@@ -122,6 +128,7 @@ const fournisseurSlice = createSlice({
         state.fournisseurs = state.fournisseurs.filter(
           (item) => item.id !== action.payload.id
         );
+        toast.success('Fournisseur supprimé avec succès');
       });
   },
 });

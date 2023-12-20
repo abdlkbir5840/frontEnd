@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addFournisseur } from "../../store/FournisseurSlice";
+import { addFournisseur, fetchFournisseurs } from "../../store/FournisseurSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-export default function AddFournisseur() {
+export default function AddFournisseur({info}) {
   const [code_fournisseur, setCodeFournisseur] = useState("");
   const [nom, setNom] = useState("");
   const [mail, setMail] = useState("");
@@ -14,6 +14,8 @@ export default function AddFournisseur() {
   const handleAdd = () => {
     const fournisseur = {code_fournisseur, nom, adresse, tel, mail,fax};
     dispatch(addFournisseur(fournisseur));
+    dispatch(fetchFournisseurs(info.page))
+    
   };
   
   return (

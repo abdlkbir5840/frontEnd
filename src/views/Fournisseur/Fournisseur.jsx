@@ -34,6 +34,12 @@ export default function Fournisseur() {
 
   const handleDeleteFournisseur = (fournisseur) => {
     dispatch(removeFournisseur(fournisseur));
+    if(fournisseurs.length<=1) {
+      setCurrentPage(currentPage-1)
+      dispatch(fetchFournisseurs(currentPage-1))
+    }else{
+      dispatch(fetchFournisseurs(currentPage))
+    }
   };
   const handelPaginate = (page) => {
     if (search !== "") {
@@ -88,7 +94,7 @@ export default function Fournisseur() {
         <h1 className="h2">Gestion des fournisseurs</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
           <div className="btn-group me-2">
-            <AddFournisseur />
+            <AddFournisseur info={{page:currentPage}} />
           </div>
         </div>
       </div>
