@@ -25,7 +25,6 @@ export default function EditProduit({ produitInfo }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(produitInfo);
     dispatch(fetchAllFournisseurs());
     dispatch(fetchAllCategories());
   }, [dispatch]);
