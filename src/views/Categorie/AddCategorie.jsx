@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addCategorie } from "../../store/CategorieSlice";
+import { addCategorie, fetchCategories } from "../../store/CategorieSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function AddCategorie() {
+export default function AddCategorie({info}) {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
   const handleAdd = () => {
     const categorie = {nom, description};
     dispatch(addCategorie(categorie));
+    dispatch(fetchCategories(info.page))
   };
   
   return (

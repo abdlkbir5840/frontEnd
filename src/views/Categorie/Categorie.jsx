@@ -22,8 +22,14 @@ export default function Categorie() {
     dispatch(fetchCategories(1));
   }, [dispatch]);
 
-  const handleDelete = (fournisseur) => {
-    dispatch(removeCtegorie(fournisseur));
+  const handleDelete = (categorie) => {
+    dispatch(removeCtegorie(categorie));
+    if(categories.length<=1) {
+      setCurrentPage(currentPage-1)
+      dispatch(fetchCategories(currentPage-1))
+    }else{
+      dispatch(fetchCategories(currentPage))
+    }
   };
   const handelPaginate = (page) => {
     if (search !== "") {
@@ -78,7 +84,7 @@ export default function Categorie() {
         <h1 className="h2">Fournisseur Data</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
           <div className="btn-group me-2">
-            <AddCategorie />
+            <AddCategorie info={{page:currentPage}} />
           </div>
         </div>
       </div>
@@ -140,17 +146,6 @@ export default function Categorie() {
                         description: categorie.description,
                       }}
                     />
-                    {/* <EditFournisseur
-                      fournisseurInfo={{
-                        id: fournisseur.id,
-                        nom: fournisseur.nom,
-                        code_fournisseur: fournisseur.code_fournisseur,
-                        tel: fournisseur.tel,
-                        fax: fournisseur.fax,
-                        mail: fournisseur.mail,
-                        adresse: fournisseur.adresse,
-                      }}
-                    /> */}
                   </td>
                 </tr>
               ))}
