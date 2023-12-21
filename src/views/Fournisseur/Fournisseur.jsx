@@ -28,7 +28,6 @@ export default function Fournisseur() {
       })
       .catch((error) => {
         console.error("Erreur lors du chargement des fournisseurs :", error);
-        // Gérer l'erreur si nécessaire
         setLoading(false);
       });
   }, [dispatch]);

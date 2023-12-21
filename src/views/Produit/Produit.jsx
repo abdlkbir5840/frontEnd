@@ -168,7 +168,7 @@ export default function Produit() {
                             <FontAwesomeIcon icon={faTruck} /> Fournisseur
                           </button>
                           <ul class="dropdown-menu">
-                            {produit.fournisseurs.map((fournisseur, index) => (
+                            {Array.isArray(produit.fournisseurs) && produit.fournisseurs.length>0 &&  produit.fournisseurs.map((fournisseur, index) => (
                               <li key={index}>
                                 <a class="dropdown-item" href="#">
                                   {fournisseur.nom}: {fournisseur.qte_entree}
