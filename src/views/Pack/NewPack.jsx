@@ -3,11 +3,11 @@ import {saveClient} from "../../services/clientService.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addFournisseur} from "../../store/FournisseurSlice.jsx";
-import {addClient} from "../../store/ClientSlice.jsx";
+import {addClient, fetchClients} from "../../store/ClientSlice.jsx";
 import {faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {addPack} from "../../store/PackSlice.jsx";
-export default function NewPack(){
+import {addPack, fetchPacks} from "../../store/PackSlice.jsx";
+export default function NewPack({info}){
     const [codePack,setCodePack]= useState("");
     const [nbrProduits,setnbrProduits]= useState(1);
     const [disponible,setDisponible]= useState(0);
@@ -19,6 +19,7 @@ export default function NewPack(){
         setQte(2)
         const pack = {codePack,nbrProduits,disponible,qte,prix};
         dispatch(addPack(pack));
+        dispatch(fetchPacks(info.page));
     };
 
     return(

@@ -22,7 +22,7 @@ import {
     totalPages
 } from "../../store/PackSlice.jsx";
 import EditClient from "../Client/EditClient.jsx";
-import {removeClient} from "../../store/ClientSlice.jsx";
+import {fetchClients, removeClient} from "../../store/ClientSlice.jsx";
 import NewPack from "./NewPack.jsx";
 import EditPack from "./EditPack.jsx";
 import {fetchAllProduits, fetchProduits, selectProduits} from "../../store/ProduitSlice.jsx";
@@ -52,6 +52,12 @@ export default function Packs() {
     const handleDeletePack =  (pack) => {
         console.log(pack);
         dispatch(removePack(pack));
+        if(packs.length<=1) {
+            setCurrentPage(currentPage-1)
+            dispatch(fetchPacks(currentPage-1))
+        }else{
+            dispatch(fetchPacks(currentPage))
+        }
 
     };
     const handleAjouterProduitToPack =  (pack_id) => {
@@ -106,7 +112,7 @@ export default function Packs() {
                 <h1 className="h2">Gestion des packs</h1>
                 <div className="btn-toolbar mb-2 mb-md-0">
 
-                    <NewPack/>
+                    <NewPack info={{page:currentPage}}/>
                 </div>
             </div>
             {packs.length <= 0  ? <div  style={{display: 'flex',
