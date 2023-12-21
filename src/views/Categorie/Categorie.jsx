@@ -18,17 +18,19 @@ export default function Categorie() {
   const totalPage = useSelector(totalPages);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     dispatch(fetchCategories(1));
   }, [dispatch]);
 
   const handleDelete = (categorie) => {
     dispatch(removeCtegorie(categorie));
-    if(categories.length<=1) {
-      setCurrentPage(currentPage-1)
-      dispatch(fetchCategories(currentPage-1))
-    }else{
-      dispatch(fetchCategories(currentPage))
+    if (categories.length <= 1) {
+      setCurrentPage(currentPage - 1);
+      dispatch(fetchCategories(currentPage - 1));
+    } else {
+      dispatch(fetchCategories(currentPage));
     }
   };
   const handelPaginate = (page) => {
@@ -46,12 +48,17 @@ export default function Categorie() {
       }
     }
   };
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (search === "") {
+      setLoading(true);
       dispatch(fetchCategories(1));
+      setLoading(false);
     } else {
+      setLoading(true);
       setCurrentPage(1);
       dispatch(searchCategories({ words: search, page: 1 }));
+      setLoading(false);
     }
   };
   const renderPaginationLinks = () => {
@@ -81,10 +88,10 @@ export default function Categorie() {
   return (
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Fournisseur Data</h1>
+        <h1 className="h2">Gestion des catégories</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
           <div className="btn-group me-2">
-            <AddCategorie info={{page:currentPage}} />
+            <AddCategorie info={{ page: currentPage }} />
           </div>
         </div>
       </div>
@@ -99,7 +106,7 @@ export default function Categorie() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
-            onClick={handleSearch}
+            onClick={(e) => handleSearch(e)}
             className="btn btn-outline-primary"
             type="submit"
           >
@@ -107,7 +114,7 @@ export default function Categorie() {
           </button>
         </form>
       </div>
-      {categories.length <= 0 && (
+      {loading && categories.length <= 0 && (
         <div>
           <BarLoader color="#0d6efd" className="w-100" />
         </div>
@@ -124,7 +131,7 @@ export default function Categorie() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(categories) &&
+            {Array.isArray(categories) && categories.length > 0 ? (
               categories.slice(0, 5).map((categorie) => (
                 <tr key={categorie.id}>
                   <td>{categorie.id}</td>
@@ -148,7 +155,14 @@ export default function Categorie() {
                     />
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  Aucun enregistrement trouvé
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <nav aria-label="Page navigation example">
