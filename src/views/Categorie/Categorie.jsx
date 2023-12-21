@@ -11,6 +11,7 @@ import {
 } from "../../store/CategorieSlice";
 import EditCategorie from "./EditCategorie";
 import AddCategorie from "./AddCategorie";
+import { BarLoader } from "react-spinners";
 export default function Categorie() {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
@@ -100,6 +101,11 @@ export default function Categorie() {
           </button>
         </form>
       </div>
+      {categories.length <= 0 && (
+        <div>
+          <BarLoader color="#0d6efd" className="w-100" />
+        </div>
+      )}
       <div className="table-responsive small">
         <table className="table">
           <thead>

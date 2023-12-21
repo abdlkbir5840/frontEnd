@@ -15,7 +15,6 @@ export default function AddFournisseur({info}) {
     const fournisseur = {code_fournisseur, nom, adresse, tel, mail,fax};
     dispatch(addFournisseur(fournisseur));
     dispatch(fetchFournisseurs(info.page))
-    
   };
   
   return (
