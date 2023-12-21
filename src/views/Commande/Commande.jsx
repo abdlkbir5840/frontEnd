@@ -14,6 +14,7 @@ import {
 } from "../../store/CommandeSlice.jsx";
 import {updateClient} from "../../store/ClientSlice.jsx";
 import {searchPack} from "../../store/PackSlice.jsx";
+import {BarLoader} from "react-spinners";
 export default function Commande() {
     const dispatch = useDispatch()
     const commands = useSelector(selectCommands);
@@ -130,16 +131,12 @@ export default function Commande() {
 
             </div>
             <br/>
-            {commands === undefined ? <div  style={{display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '75vh',}}>
-                    <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-                    </div>
-            </div>
-            :
 
+            {commands === undefined && (
+                <div>
+                    <BarLoader color="#0d6efd" className="w-100" />
+                </div>
+            )}
             <div className="table-responsive small">
                 <table className="table">
                     <thead>
@@ -154,7 +151,7 @@ export default function Commande() {
                     </tr>
                     </thead>
                     <tbody>
-                    {Array.isArray(commands) && commands.map((command)=>(
+                    {commands !== undefined&& Array.isArray(commands) && commands.map((command)=>(
                         command && (
                             <tr  key={command && command.id}>
                                 {command && <td>{command.id}</td>}
@@ -295,7 +292,7 @@ export default function Commande() {
                         </li>
                     </ul>
                 </nav>
-            </div>}
+            </div>
         </main>
 
 

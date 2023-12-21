@@ -100,8 +100,6 @@ const clientSlice = createSlice({
             .addCase(searchClient.fulfilled, (state, action) => {
                 state.totalPages = action.payload.totalPages
                 state.clients = action.payload.data;
-                console.log(action.payload.totalPages)
-                console.log(action.payload.data)
             })
             .addCase(addClient.fulfilled, (state, action) => {
                 console.log(action.payload)
