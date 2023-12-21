@@ -56,7 +56,8 @@ export default function Fournisseur() {
       }
     }
   };
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault()
     if (search === "") {
       dispatch(fetchFournisseurs(1));
     } else {
@@ -109,7 +110,7 @@ export default function Fournisseur() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
-            onClick={handleSearch}
+            onClick={(e)=>handleSearch(e)}
             className="btn btn-outline-primary"
             type="submit"
           >

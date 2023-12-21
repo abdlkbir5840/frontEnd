@@ -122,6 +122,8 @@ const fournisseurSlice = createSlice({
         state.fournisseurs = state.fournisseurs.map((item) =>
           item.id === action.payload.id ? { ...item, ...action.payload } : item
         );
+        toast.success('Fournisseur modifier avec succès');
+
       })
       .addCase(removeFournisseur.fulfilled, (state, action) => {
         console.log(action.payload.id)
