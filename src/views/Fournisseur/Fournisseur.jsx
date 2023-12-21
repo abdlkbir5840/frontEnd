@@ -11,6 +11,7 @@ import {
   totalPages,
 } from "../../store/FournisseurSlice";
 import EditFournisseur from "./EditFournisseur";
+import { BarLoader } from "react-spinners";
 export default function Fournisseur() {
   const dispatch = useDispatch();
   const fournisseurs = useSelector(selectFournisseurs);
@@ -118,13 +119,11 @@ export default function Fournisseur() {
         </form>
       </div>
       {fournisseurs.length <= 0 && (
-        <div className="spiner">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+        <div>
+          <BarLoader color="#0d6efd" className="w-100" />
         </div>
       )}
-      {fournisseurs.length>0 && (
+      
         <div className="table-responsive small">
           <table className="table">
             <thead>
@@ -139,7 +138,7 @@ export default function Fournisseur() {
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            {fournisseurs.length>0 && ( <tbody>
               {Array.isArray(fournisseurs) &&
                 fournisseurs &&
                 fournisseurs.slice(0, 5).map((fournisseur) => (
@@ -174,6 +173,8 @@ export default function Fournisseur() {
                   </tr>
                 ))}
             </tbody>
+      )}
+
           </table>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -221,7 +222,6 @@ export default function Fournisseur() {
             </ul>
           </nav>
         </div>
-      )}
     </main>
   );
 }
