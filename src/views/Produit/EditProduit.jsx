@@ -12,8 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 export default function EditProduit({ produitInfo }) {
-  const fournisseurs = useSelector(selectFournisseurs);
-  const categories = useSelector(selectCategories);
+  // const categories = useSelector(selectCategories);
   const [code_produit, setCodeProduit] = useState(produitInfo.code_produit);
   const [nom, setNom] = useState(produitInfo.nom);
   const [imagePath, setImagePath] = useState("");
@@ -24,13 +23,12 @@ export default function EditProduit({ produitInfo }) {
   const [id, setId] = useState(produitInfo.id);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAllFournisseurs());
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAllFournisseurs());
+  //   dispatch(fetchAllCategories());
+  // }, [dispatch]);
   const handleAdd = () => {
     const basePath = "C:\\fakepath\\";
-    // Utiliser replace pour enlever la partie de base du chemin
     const image = imagePath.replace(basePath, "");
 
     const produit = {
@@ -122,7 +120,7 @@ export default function EditProduit({ produitInfo }) {
                     className="form-select"
                   >
                     <option value="">Sélectionner une catégorie</option>
-                    {categories.map((categorie) => (
+                    {produitInfo.categories.map((categorie) => (
                       <option key={categorie.id} value={categorie.id}>
                         {categorie.nom}
                       </option>

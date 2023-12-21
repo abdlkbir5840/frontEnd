@@ -23,8 +23,12 @@ import {
 import AddProduit from "./AddProduit";
 import AddQuantite from "./addQuantite";
 import EditProduit from "./EditProduit";
+import { fetchAllFournisseurs, selectFournisseurs } from "../../store/FournisseurSlice";
+import { fetchAllCategories, selectCategories } from "../../store/CategorieSlice";
 export default function Produit() {
   const dispatch = useDispatch();
+  const fournisseurs = useSelector(selectFournisseurs);
+  const categories = useSelector(selectCategories);
   const produits = useSelector(selectProduits);
   const totalPage = useSelector(totalPages);
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +41,8 @@ export default function Produit() {
 
     dispatch(fetchProduits(1))
       .then(() => {
+        dispatch(fetchAllFournisseurs());
+        dispatch(fetchAllCategories());
         setLoading(false);
       })
       .catch((error) => {
@@ -45,10 +51,6 @@ export default function Produit() {
       });
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(fetchProduits(1));
-  //   console.log(produits)
-  // }, [dispatch]);
 
   const handleDelete = (produit) => {
     console.log(produit);
@@ -101,7 +103,7 @@ export default function Produit() {
           <h1 className="h2">Gestion des produits</h1>
           <div className="btn-toolbar mb-2 mb-md-0">
             <div className="btn-group me-2">
-              <AddProduit />
+              <AddProduit produitInfo={{categories: categories, fournisseurs:fournisseurs}} />
             </div>
           </div>
         </div>
@@ -168,7 +170,7 @@ export default function Produit() {
                             <FontAwesomeIcon icon={faTruck} /> Fournisseur
                           </button>
                           <ul class="dropdown-menu">
-                            {Array.isArray(produit.fournisseurs) && produit.fournisseurs.length>0 &&  produit.fournisseurs.map((fournisseur, index) => (
+                            {Array.isArray(produit.fournisseurs) &&  produit.fournisseurs.map((fournisseur, index) => (
                               <li key={index}>
                                 <a class="dropdown-item" href="#">
                                   {fournisseur.nom}: {fournisseur.qte_entree}
@@ -184,6 +186,7 @@ export default function Produit() {
                                 id: produit.id,
                                 code_produit: produit.code_produit,
                                 nom: produit.nom,
+                                fournisseurs:fournisseurs
                               }}
                             />
                           </span>
@@ -196,6 +199,7 @@ export default function Produit() {
                               nom: produit.nom,
                               quantite: produit.quantite,
                               description: produit.description,
+                              categories: categories
                             }}
                           />
                           {/* </span> */}

@@ -9,16 +9,16 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addproductQuantite } from "../../store/ProduitSlice";
 
 export default function AddQuantite({ produitInfo }) {
-  const fournisseurs = useSelector(selectFournisseurs);
+  // const fournisseurs = useSelector(selectFournisseurs);
   const [code_produit, setCodeProduit] = useState(produitInfo.code_produit);
   const [nom, setNom] = useState(produitInfo.nom);
   const [produitId, setProduitId] = useState(produitInfo.id);
   const [qte_entree, setQteEntree] = useState("");
   const [fournisseur_id, setFournisseurId] = useState("");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAllFournisseurs());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAllFournisseurs());
+  // }, [dispatch]);
   const handleAdd = () => {
     // const produit = {
     //   id,
@@ -94,7 +94,7 @@ export default function AddQuantite({ produitInfo }) {
                     className="form-select"
                   >
                     <option value="">Sélectionner un Fournisseur</option>
-                    {fournisseurs.map((fournisseur) => (
+                    {produitInfo.fournisseurs.map((fournisseur) => (
                       <option key={fournisseur.id} value={fournisseur.id}>
                         {fournisseur.nom}
                       </option>
