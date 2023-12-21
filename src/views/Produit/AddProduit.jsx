@@ -11,9 +11,9 @@ import {
 } from "../../store/CategorieSlice";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export default function AddProduit() {
-  const fournisseurs = useSelector(selectFournisseurs);
-  const categories = useSelector(selectCategories);
+export default function AddProduit({produitInfo}) {
+  // const fournisseurs = useSelector(selectFournisseurs);
+  // const categories = useSelector(selectCategories);
   const [code_produit, setCodeProduit] = useState("");
   const [nom, setNom] = useState("");
   const [imagePath, setImagePath] = useState("");
@@ -23,13 +23,12 @@ export default function AddProduit() {
   const [categorie_id, setCategorieId] = useState("");
   const [fournisseur_id, setFournisseurId] = useState("");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAllFournisseurs());
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAllFournisseurs());
+  //   dispatch(fetchAllCategories());
+  // }, [dispatch]);
   const handleAdd = () => {
     const basePath = "C:\\fakepath\\";
-    // Utiliser replace pour enlever la partie de base du chemin
     const image = imagePath.replace(basePath, "");
 
     const produit = {
@@ -120,7 +119,7 @@ export default function AddProduit() {
                     className="form-select"
                   >
                     <option value="">Sélectionner une catégorie</option>
-                    {categories.map((categorie) => (
+                    {produitInfo.categories.map((categorie) => (
                       <option key={categorie.id} value={categorie.id}>
                         {categorie.nom}
                       </option>
@@ -135,7 +134,7 @@ export default function AddProduit() {
                     className="form-select"
                   >
                     <option value="">Sélectionner un Fournisseur</option>
-                    {fournisseurs.map((fournisseur) => (
+                    {produitInfo.fournisseurs.map((fournisseur) => (
                       <option key={fournisseur.id} value={fournisseur.id}>
                         {fournisseur.nom}
                       </option>
