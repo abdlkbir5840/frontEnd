@@ -35,13 +35,24 @@ export const searchClient = createAsyncThunk(
 );
 export const addClient = createAsyncThunk(
     "client/addClients",
-    async (client) => {
+    async (client,{ rejectWithValue }) => {
         try {
             const response = await saveClient(client);
             console.log(response.data)
             return response.data.client;
         } catch (error) {
-            console.log(error);
+            console.error(error);
+
+            if (error.response?.status === 422) {
+                const validationErrors = error.response.data.errors;
+
+                Object.values(validationErrors).forEach((error) => {
+                    toast.error(error[0] || 'Erreur de validation');
+                });
+            } else {
+                toast.error(error.response?.data.message || 'Une erreur s\'est produite lors de l\'ajout du fournisseur');
+            }
+            return rejectWithValue(error.response?.data);
         }
     }
 );
@@ -95,7 +106,7 @@ const clientSlice = createSlice({
             .addCase(addClient.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.clients.push(action.payload);
-                toast.success('Client ajouter avec succes' || 'Client ajouter avec succes');
+                toast.success('Client ajouter avec succes');
             })
             .addCase(updateClient.fulfilled, (state, action) => {
                 console.log(action.payload)

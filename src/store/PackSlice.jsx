@@ -50,6 +50,16 @@ export const addPack = createAsyncThunk(
             return response.data.produit;
         } catch (error) {
             console.log(error);
+            if (error.response?.status === 422) {
+                const validationErrors = error.response.data.errors;
+
+                Object.values(validationErrors).forEach((error) => {
+                    toast.error(error[0] || 'Erreur de validation');
+                });
+            } else {
+                toast.error(error.response?.data.message || 'Une erreur s\'est produite lors de l\'ajout du fournisseur');
+            }
+            return rejectWithValue(error.response?.data);
         }
     }
 );
@@ -62,8 +72,9 @@ export const addProduitToPack = createAsyncThunk(
             return response.data.pack;
 
         } catch (error) {
-            toast.error(error.response.data.message || 'Une erreur s\'est produite lors de l\'ajout du produit');
-            // return rejectWithValue(error.response.data.message);
+            console.error(error);
+
+
         }
     }
 );
@@ -127,7 +138,7 @@ const packSlice = createSlice({
 
                     console.log(action.payload)
                     state.packs.push(action.payload);
-                toast.success('Pack ajouter avec succes' || 'Ajout avec succes');
+                    toast.success('Pack ajouter avec succes' || 'Ajout avec succes');
 
             })
             .addCase(addProduitToPack.fulfilled, (state, action) => {
