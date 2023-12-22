@@ -74,7 +74,7 @@ export const addProduitToPack = createAsyncThunk(
         } catch (error) {
             console.error(error);
 
-
+            toast.error(error.response.data.message)
         }
     }
 );
