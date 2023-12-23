@@ -8,6 +8,7 @@ import {
     addQuantite,
     search, getAllProduits
 } from "../services/produitService";
+import { toast } from "react-toastify";
 
 export const fetchProduits = createAsyncThunk(
   "produits/fetchProduits",
@@ -45,13 +46,31 @@ export const searchProduits  = createAsyncThunk(
 );
 export const addProduit = createAsyncThunk(
   "produits/addProduit",
-  async (produit) => {
+  async (produit, {rejectWithValue}) => {
     try {
       const response = await saveProduits(produit);
       console.log(response.data.produit)
       return response.data.produit;
     } catch (error) {
-      console.log(error);
+      if (error.response?.status === 422) {
+        const validationErrors = error.response.data.erreurs;
+
+        Object.values(validationErrors).forEach((error) => {
+          toast.error(error[0] || "Erreur de validation");
+        });
+      } else if(error.response?.status === 409){
+        toast.error(
+          error.response?.data.message ||
+            "Une erreur s'est produite lors de l'ajout du produit"
+        );
+      }else{
+        toast.error(
+          error.response?.data.message ||
+            "Une erreur s'est produite lors de l'ajout du produit"
+        );
+      }
+      return rejectWithValue(error.response?.data);
+    
     }
   }
 );
@@ -115,25 +134,27 @@ const ProduitSlice = createSlice({
       })
       .addCase(addProduit.fulfilled, (state, action) => {
         state.produits.push(action.payload);
+        toast.success('Produit ajouté avec succès');
       })
       .addCase(addproductQuantite.fulfilled, (state, action)=>{
         console.log(action.payload.id)
         state.produits = state.produits.map((item) =>
         item.id === action.payload.id ? { ...item, ...action.payload } : item
       );
-      // console.log(state.produits)
+      toast.success('Quantite ajouté avec succès');
       })
       .addCase(updateProduit.fulfilled, (state, action) => {
         state.produits = state.produits.map((item) =>
           item.id === action.payload.id ? { ...item, ...action.payload } : item
         );
         console.log(state.produits)
-
+        toast.success('Produit modifier avec succès');
       })
       .addCase(removeProduit.fulfilled, (state, action) => {
         state.produits = state.produits.filter(
           (item) => item.id !== action.payload.id
         );
+        toast.success('Produit supprimé avec succès');
       });
   },
 });

@@ -20,10 +20,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/" element={<Login />} />
-          {/* <Route path="/register" element={<SignUp />} /> */}
-          {/* <Route path="/main" element={<Main />} /> */}
           <Route element={<RequireAuth />}>
             <Route path="/dashboard/" element={<ProtectedRoutes />}>
               <Route path="fournisseur" element={<Fournisseur />} />

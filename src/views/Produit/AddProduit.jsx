@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduit } from "../../store/ProduitSlice";
+import { addProduit, fetchProduits } from "../../store/ProduitSlice";
 import {
   fetchAllFournisseurs,
   selectFournisseurs,
@@ -41,8 +41,8 @@ export default function AddProduit({produitInfo}) {
       categorie_id,
       fournisseur_id,
     };
-    console.log(produit);
     dispatch(addProduit(produit));
+    dispatch(fetchProduits(produitInfo.page))
   };
 
   return (
