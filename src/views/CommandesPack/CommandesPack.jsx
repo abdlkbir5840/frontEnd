@@ -14,7 +14,7 @@ import {
     selectCommandePacks,
     totalPages,
     updateCommandePackStatus
-} from "../../store/CommandePackSlice.js";
+} from "../../store/CommandePackSlice.jsx";
 import {updateCommandeStatus} from "../../store/CommandeSlice.jsx";
 import emailjs from "@emailjs/browser";
 export default function CommandesPack() {

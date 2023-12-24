@@ -5,7 +5,7 @@ import { produit } from "./ProduitSlice";
 import {client} from "./ClientSlice";
 import {pack} from "./PackSlice.jsx";
 import {command} from "./CommandeSlice.jsx";
-import {commandPack} from "./CommandePackSlice.js";
+import {commandPack} from "./CommandePackSlice.jsx";
 
 const store = configureStore({
   reducer: {
