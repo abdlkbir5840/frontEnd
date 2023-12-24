@@ -102,8 +102,11 @@ export default function Packs() {
     };
     const handleSearch = (e) => {
         e.preventDefault()
+        if(query===""){
+            dispatch(fetchPacks(1))
+        }else{
         dispatch(searchPack(query));
-        console.log(packs)
+        console.log(packs)}
     };
 
     return (

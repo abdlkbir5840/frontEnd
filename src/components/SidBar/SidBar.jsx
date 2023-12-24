@@ -89,13 +89,29 @@ export default function SidBar() {
                   Packs
                 </Link>
               </li>
+
               <li className="nav-item">
-                <Link className="nav-link d-flex align-items-center gap-2" to="commande">
-                  <svg className="bi">
+                <div className="btn-group">
+                  <button type="button" className="btn btn-light">   <svg className="bi">
                     <use xlinkHref="#graph-up" />
-                  </svg>
-                  Commandes
-                </Link>
+                  </svg> <span >commande</span></button>
+                  <button type="button" className="btn  btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span className="visually-hidden">commande</span>
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link className="nav-link d-flex align-items-center gap-2" to="commande">
+                        Produits
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="nav-link d-flex align-items-center gap-2" to="commandePack">
+                        Packs
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
               </li>
               <li className="nav-item">
                 <a className="nav-link d-flex align-items-center gap-2" href="#">
