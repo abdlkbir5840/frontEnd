@@ -15,6 +15,7 @@ export const fetchProduits = createAsyncThunk(
   async (page) => {
     try {
       const response = await getProduits(page);
+      console.log(response.data.produits.data)
       return {data:response.data.produits.data,totalPages:response.data.produits.totalPages};
     } catch (error) {
       console.log(error);
