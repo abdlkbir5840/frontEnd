@@ -60,7 +60,7 @@ export default function NewPack({info}){
 
                             <form >
                                 <div className="mb-3">
-                                    <label  className="form-label">Code de produit:</label>
+                                    <label  className="form-label">Code de pack:</label>
                                     <input
                                         onChange={(e)=> setCodePack(e.target.value)}
                                         value={codePack}

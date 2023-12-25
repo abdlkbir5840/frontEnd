@@ -54,7 +54,7 @@ export default function EditPack({infoPack}){
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Ajouter pack
+                                Modifier pack
                             </h5>
                             <button
                                 type="button"
@@ -67,7 +67,7 @@ export default function EditPack({infoPack}){
 
                             <form >
                                 <div className="mb-3">
-                                    <label  className="form-label">Code de produit:</label>
+                                    <label  className="form-label">Code de pack:</label>
                                     <input
                                         onChange={(e)=> setCodePack(e.target.value)}
                                         value={codePack}
