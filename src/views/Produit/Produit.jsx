@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./produit.css";
-import image from "./image.jpg";
+import image from "./images/image.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProduits,
@@ -127,7 +127,7 @@ export default function Produit() {
                 produitInfo={{
                   categories: categories,
                   fournisseurs: fournisseurs,
-                  page: currentPage
+                  page: currentPage,
                 }}
               />
             </div>
@@ -183,9 +183,7 @@ export default function Produit() {
                     </span>
                     <div class="card-image">
                       <img
-                        // src="https://uno.ma/pub/media/catalog/product/cache/af8d7fd2c4634f9c922fba76a4a30c04/u/1/u1.jpg"
-                        // src={"./images/image1.jpg"}
-                        src={image}
+                         src={"/images/"+produit.image}
                         width="120"
                         alt="Image du produit"
                       />
@@ -219,7 +217,8 @@ export default function Produit() {
                               produit.fournisseurs.map((fournisseur, index) => (
                                 <li key={index}>
                                   <a class="dropdown-item" href="#">
-                                  <FontAwesomeIcon icon={faUser}/> {fournisseur.nom}: {fournisseur.qte_entree}
+                                    <FontAwesomeIcon icon={faUser} />{" "}
+                                    {fournisseur.nom}: {fournisseur.qte_entree}
                                   </a>
                                 </li>
                               ))}
