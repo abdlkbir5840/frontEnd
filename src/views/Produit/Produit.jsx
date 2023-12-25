@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./produit.css";
-import image from "./images/image.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProduits,
@@ -152,13 +151,13 @@ export default function Produit() {
             </button>
           </form>
         </div>
-        {produits.length <= 0 && (
+        {/* {produits.length <= 0 && (
           <div className="spiner">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-        )}
+        )} */}
         {/* Statr */}
         {produits.length > 0 && (
           <>
@@ -185,14 +184,16 @@ export default function Produit() {
                       <img
                          src={"/images/"+produit.image}
                         width="120"
-                        alt="Image du produit"
+                        height="150"  
+                        alt="image"
                       />
                     </div>
 
                     <div class="card-inner">
                       <div className="d-flex justify-content-between  align-items-center">
                         <div>
-                          <span>{produit.categorie_nom}</span>
+                          <span>{produit.categorie_nom}
+                          </span>
                           <h5 class="mb-0">{produit.nom}</h5>
                         </div>
                         <div class="price">
