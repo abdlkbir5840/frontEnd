@@ -14,7 +14,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addProduitToPack,
-    fetchPacks,
+    fetchPacks, pack,
     removePack,
     removeProduitFromPack,
     searchPack, selectError,
@@ -26,6 +26,7 @@ import {fetchClients, removeClient} from "../../store/ClientSlice.jsx";
 import NewPack from "./NewPack.jsx";
 import EditPack from "./EditPack.jsx";
 import {fetchAllProduits, fetchProduits, selectProduits} from "../../store/ProduitSlice.jsx";
+import {fetchFournisseurs} from "../../store/FournisseurSlice.jsx";
 
 export default function Packs() {
     const dispatch = useDispatch()
@@ -37,12 +38,22 @@ export default function Packs() {
     const [produit_id ,setProduitId]= useState()
     // const [lastName ,setLastName]= useState("")
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        console.log(totalPage)
-        dispatch(fetchPacks(1));
+        setLoading(true);
+        dispatch(fetchPacks(1)).then(() => {
+            setLoading(false);
+        })
+            .catch((error) => {
+                console.error("Erreur lors du chargement des fournisseurs :", error);
+                setLoading(false);
+            });
         dispatch(fetchAllProduits());
 
+
     }, [dispatch]);
+
     const handleDeleteProductFromPack =  (packId,produitId) => {
         console.log(packId,produitId)
 
@@ -103,9 +114,13 @@ export default function Packs() {
     const handleSearch = (e) => {
         e.preventDefault()
         if(query===""){
+            setLoading(true);
             dispatch(fetchPacks(1))
+            setLoading(false);
         }else{
+            setLoading(true);
         dispatch(searchPack(query));
+            setLoading(false);
         console.log(packs)}
     };
 
@@ -118,7 +133,7 @@ export default function Packs() {
                     <NewPack info={{page:currentPage}}/>
                 </div>
             </div>
-            {packs.length <= 0  ? <div  style={{display: 'flex',
+            {loading && packs.length <= 0? <div  style={{display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '75vh',}}>
@@ -150,7 +165,8 @@ export default function Packs() {
 
 
             <br/>
-            <div className="row d-flex align-items-center justify-content-center  ">
+            {packs.length > 0 ?(
+                <div className="row d-flex align-items-center justify-content-center  ">
             {Array.isArray(packs) && packs.map((pack)=>(
                 pack && (
 
@@ -323,7 +339,12 @@ export default function Packs() {
             </div>
                 )
             ))}
-            </div>
+            </div>):
+                    <div className="alert alert-danger ms-4" role="alert">
+                        Aucun enregistrement trouvé
+                    </div>
+
+            }
             <div className="w-100 d-flex align-items-center justify-content-center ">
             <div>
 

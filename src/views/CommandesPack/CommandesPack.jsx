@@ -15,7 +15,7 @@ import {
     totalPages,
     updateCommandePackStatus
 } from "../../store/CommandePackSlice.jsx";
-import {updateCommandeStatus} from "../../store/CommandeSlice.jsx";
+import {fetchCommands, updateCommandeStatus} from "../../store/CommandeSlice.jsx";
 import emailjs from "@emailjs/browser";
 export default function CommandesPack() {
     const dispatch = useDispatch()
@@ -24,11 +24,21 @@ export default function CommandesPack() {
     const [currentPage, setCurrentPage] = useState(1);
     // const [status ,setStatus]= useState()
     const [date ,setDate]= useState()
-    // const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        console.log(totalPage)
-        dispatch(fetchCommandePack(1));
+        setLoading(true);
+        dispatch(fetchCommandePack(1)).then(() => {
+            setLoading(false);
+        })
+            .catch((error) => {
+                console.error("Erreur lors du chargement des fournisseurs :", error);
+                setLoading(false);
+            });
+
+
+
     }, [dispatch]);
+
     // const handleDeleteClient =  (client) => {
     //     console.log(client);
     //     dispatch(removeClient(client));
@@ -100,7 +110,9 @@ export default function CommandesPack() {
     const handleSearch = (e) => {
         e.preventDefault()
         console.log(date)
+        setLoading(true);
         dispatch(searchCommandePack(date));
+        setLoading(false);
         console.log(commandPacks)
     };
 
@@ -139,7 +151,7 @@ export default function CommandesPack() {
             </div>
             <br/>
 
-            {commandPacks.length <=0  && (
+            {loading && commandPacks.length <=0  && (
                 <div>
                     <BarLoader color="#0d6efd" className="w-100" />
                 </div>
@@ -158,7 +170,7 @@ export default function CommandesPack() {
                     </tr>
                     </thead>
                     <tbody>
-                    {commandPacks.length > 0 && Array.isArray(commandPacks) && commandPacks.map((commandPack)=>(
+                    {commandPacks.length > 0 ?( Array.isArray(commandPacks) && commandPacks.map((commandPack)=>(
                         commandPack.packs.length > 0 && (
                             <tr  key={commandPack && commandPack.id}>
                                 {commandPack && <td>{commandPack.id}</td>}
@@ -254,7 +266,13 @@ export default function CommandesPack() {
                                 </td>
 
                             </tr>)
-                    ))}
+                    ))):(
+                        <tr>
+                            <td colSpan="8" className="text-center">
+                                Aucun enregistrement trouvé
+                            </td>
+                        </tr>
+                        )}
                     </tbody>
 
                 </table>

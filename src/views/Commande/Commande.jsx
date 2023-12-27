@@ -12,7 +12,7 @@ import {
     totalPages,
     updateCommandeStatus
 } from "../../store/CommandeSlice.jsx";
-import {updateClient} from "../../store/ClientSlice.jsx";
+import {fetchClients, updateClient} from "../../store/ClientSlice.jsx";
 import {searchPack} from "../../store/PackSlice.jsx";
 import {BarLoader} from "react-spinners";
 export default function Commande() {
@@ -23,10 +23,21 @@ export default function Commande() {
     // const [status ,setStatus]= useState()
     const [date ,setDate]= useState()
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        console.log(totalPage)
-        dispatch(fetchCommands(1));
+        setLoading(true);
+        dispatch(fetchCommands(1)).then(() => {
+            setLoading(false);
+        })
+            .catch((error) => {
+                console.error("Erreur lors du chargement des fournisseurs :", error);
+                setLoading(false);
+            });
+
+
+
     }, [dispatch]);
+
 
     // const handleDeleteClient =  (client) => {
     //     console.log(client);
@@ -101,7 +112,9 @@ export default function Commande() {
     const handleSearch = (e) => {
         e.preventDefault()
         console.log(date)
+        setLoading(true)
         dispatch(searchCommande(date));
+        setLoading(false)
         console.log(commands)
     };
 
@@ -140,7 +153,7 @@ export default function Commande() {
             </div>
             <br/>
 
-            {commands === undefined && (
+            {loading && commands === undefined && (
                 <div>
                     <BarLoader color="#0d6efd" className="w-100" />
                 </div>
@@ -159,7 +172,7 @@ export default function Commande() {
                     </tr>
                     </thead>
                     <tbody>
-                    {commands !== undefined&& Array.isArray(commands) && commands.map((command)=>(
+                    {commands !== undefined ? (Array.isArray(commands) && commands.map((command)=>(
                         command  && (
                             <tr  key={command && command.id}>
                                 {command && <td>{command.id}</td>}
@@ -255,7 +268,13 @@ export default function Commande() {
                                 </td>
 
                             </tr>)
-                    ))}
+                    ))):(
+                        <tr>
+                        <td colSpan="8" className="text-center">
+                        Aucun enregistrement trouvé
+                        </td>
+                        </tr>
+                        )}
                     </tbody>
 
                 </table>
