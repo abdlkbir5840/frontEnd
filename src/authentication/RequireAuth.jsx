@@ -14,7 +14,7 @@ export default function RequireAuth() {
     const fetchData = async () => {
       try {
         const response = await instance.get(
-          "http://localhost:8000/api/fournisseurs"
+          "http://localhost:8000/api/users"
         );
 
         if (response.data) {
@@ -23,7 +23,8 @@ export default function RequireAuth() {
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error("Error fetching fournisseurs:", error);
+        console.error("Error fetching users:", error);
+        alert("Votre session est terminé essayer de se reconnecter")
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);
